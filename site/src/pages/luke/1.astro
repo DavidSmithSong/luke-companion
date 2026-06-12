@@ -95,11 +95,38 @@ const questions = [
 ---
 <BaseLayout title={`第 ${chapter} 章：${title} · 路加福音陪读`} wide={true}>
   <style>
-    /* ── 页头 ── */
-    .nav-back { display:inline-flex;align-items:center;gap:.4rem;color:var(--color-accent-dark);text-decoration:none;font-size:.85rem;margin-bottom:1.2rem; }
-    .nav-back:hover { text-decoration:underline; }
-    .chapter-label { font-size:.85rem;color:var(--color-text-muted);margin-bottom:.25rem; }
-    .chapter-title { font-family:var(--font-serif);font-size:1.5rem;line-height:1.4;margin-bottom:1.8rem; }
+    /* ── 油画顶图 ── */
+    .painting-hero {
+      position: sticky;
+      top: 68px; /* 与 header 高度对齐 */
+      z-index: 0;
+      height: 300px;
+      margin-left: -0.5rem;
+      margin-right: -0.5rem;
+      background-image:
+        linear-gradient(to bottom, rgba(30,15,5,.15) 0%, rgba(20,10,3,.65) 100%),
+        url('https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Annunciation_%28Leonardo_c._1472%E2%80%931476%29.jpg/1280px-Annunciation_%28Leonardo_c._1472%E2%80%931476%29.jpg');
+      background-size: cover;
+      background-position: center 40%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 1rem 1.5rem;
+    }
+    .painting-nav { display:inline-flex;align-items:center;gap:.4rem;color:rgba(255,255,255,.85);text-decoration:none;font-size:.85rem; }
+    .painting-nav:hover { color:#fff; }
+    .painting-meta { }
+    .painting-chapter-label { font-size:.82rem;color:rgba(255,255,255,.7);margin-bottom:.25rem; }
+    .painting-title { font-family:var(--font-serif);font-size:clamp(1.2rem,3vw,1.8rem);color:#fff;line-height:1.35;text-shadow:0 1px 4px rgba(0,0,0,.5); }
+    .painting-credit { font-size:.72rem;color:rgba(255,255,255,.5);text-align:right; }
+
+    /* ── 主内容区（滑过油画） ── */
+    .page-body {
+      position: relative;
+      z-index: 2;
+      background: var(--color-bg);
+      padding-top: 1.8rem;
+    }
 
     /* ── 分栏布局 ── */
     .two-col {
@@ -108,16 +135,25 @@ const questions = [
       gap: 1.5rem;
       align-items: start;
     }
-    @media (max-width: 860px) {
+    @media (max-width: 960px) {
       .two-col { grid-template-columns: 1fr; }
-      .scripture-col { position:static !important; max-height:none !important; overflow-y:visible !important; border-right:none !important; border-bottom:1px solid var(--color-border); padding-right:0 !important; padding-bottom:1.5rem; margin-bottom:.5rem; }
+      .scripture-col {
+        position: static !important;
+        max-height: none !important;
+        overflow-y: visible !important;
+        border-right: none !important;
+        border-bottom: 1px solid var(--color-border);
+        padding-right: 0 !important;
+        padding-bottom: 1.5rem;
+        margin-bottom: .5rem;
+      }
     }
 
     /* ── 左栏：经文 ── */
     .scripture-col {
       position: sticky;
-      top: 1.5rem;
-      max-height: calc(100vh - 3rem);
+      top: calc(68px + 300px + 1.8rem); /* header + hero + padding */
+      max-height: calc(100vh - 68px - 1.8rem);
       overflow-y: auto;
       padding-right: 1.2rem;
       border-right: 1px solid var(--color-border);
@@ -125,10 +161,17 @@ const questions = [
       scrollbar-color: var(--color-border) transparent;
     }
     .scripture-col h2 { font-family:var(--font-serif);font-size:.95rem;color:var(--color-text-muted);margin-bottom:.8rem;padding-bottom:.4rem;border-bottom:1px solid var(--color-border); }
-    .scripture-text { font-family:var(--font-serif);font-size:.9rem;line-height:2.2;white-space:pre-wrap;color:var(--color-text); }
+    .scripture-text {
+      font-family: var(--font-serif);
+      font-size: clamp(.88rem, 1.3vw, 1.05rem);
+      line-height: 2.2;
+      white-space: pre-wrap;
+      color: var(--color-text);
+      overflow-wrap: break-word;
+    }
 
     /* ── 右栏：内容 ── */
-    .content-col { min-width:0; }
+    .content-col { min-width: 0; }
 
     /* ── 视频 ── */
     .video-section { background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;padding:1.2rem 1.3rem;margin-bottom:1.8rem; }
@@ -139,15 +182,15 @@ const questions = [
     /* ── 内容块 ── */
     .content-block { margin-bottom:1.8rem; }
     .content-block h2 { font-family:var(--font-serif);font-size:1rem;color:var(--color-text-muted);margin-bottom:.8rem;padding-bottom:.4rem;border-bottom:1px solid var(--color-border); }
-    .prose { font-size:.9rem;line-height:1.9; }
+    .prose { font-size:clamp(.88rem,1.2vw,1rem);line-height:1.95;overflow-wrap:break-word; }
 
     /* ── 思考问题 + 回答框 ── */
     .questions-list { display:grid;gap:1.2rem; }
     .question-card { background:var(--color-surface);border:1px solid var(--color-border);border-left:3px solid var(--color-accent);border-radius:0 8px 8px 0;padding:.9rem 1rem; }
     .question-num { font-size:.75rem;color:var(--color-accent);font-weight:700;margin-bottom:.3rem; }
-    .question-text { font-family:var(--font-serif);font-size:.95rem;line-height:1.8;margin-bottom:.75rem; }
+    .question-text { font-family:var(--font-serif);font-size:clamp(.9rem,1.3vw,1.05rem);line-height:1.85;margin-bottom:.75rem;overflow-wrap:break-word; }
     .answer-label { font-size:.78rem;color:var(--color-text-muted);margin-bottom:.3rem; }
-    .answer-box { width:100%;box-sizing:border-box;min-height:80px;padding:.6rem .75rem;font-family:var(--font-sans);font-size:.88rem;line-height:1.7;color:var(--color-text);background:var(--color-bg);border:1px solid var(--color-border);border-radius:6px;resize:vertical;outline:none;transition:border-color .15s; }
+    .answer-box { width:100%;box-sizing:border-box;min-height:80px;padding:.6rem .75rem;font-family:var(--font-sans);font-size:clamp(.85rem,1.1vw,.95rem);line-height:1.7;color:var(--color-text);background:var(--color-bg);border:1px solid var(--color-border);border-radius:6px;resize:vertical;outline:none;transition:border-color .15s; }
     .answer-box:focus { border-color:var(--color-accent); }
     .save-hint { font-size:.75rem;color:var(--color-text-muted);margin-top:.3rem;min-height:1.2em; }
     .save-hint.saved { color:#6a9e6a; }
@@ -158,10 +201,18 @@ const questions = [
     .nav-btn:hover { background:var(--color-accent);color:white; }
   </style>
 
-  <a href="/" class="nav-back">← 返回章节目录</a>
-  <div class="chapter-label">路加福音 · 第 {chapter} 章</div>
-  <h1 class="chapter-title">{title}</h1>
+  <!-- 油画顶图（sticky，内容滑过时始终可见） -->
+  <div class="painting-hero">
+    <a href="/" class="painting-nav">← 返回章节目录</a>
+    <div class="painting-meta">
+      <div class="painting-chapter-label">路加福音 · 第 {chapter} 章</div>
+      <h1 class="painting-title">{title}</h1>
+    </div>
+    <div class="painting-credit">达·芬奇《天使报信》，约1472年，乌菲兹美术馆藏</div>
+  </div>
 
+  <!-- 主内容区（z-index: 2，滑过油画时将其覆盖） -->
+  <div class="page-body">
   <div class="two-col">
     <!-- 左栏：经文 -->
     <aside class="scripture-col">
@@ -216,6 +267,7 @@ const questions = [
     <span></span>
     <a href="/luke/2" class="nav-btn">第 2 章 →</a>
   </div>
+  </div> <!-- end .page-body -->
 
   <script>
     document.querySelectorAll('.answer-box').forEach((el) => {
