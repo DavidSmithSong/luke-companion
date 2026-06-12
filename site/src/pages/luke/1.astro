@@ -1,0 +1,270 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const chapter = 1;
+const title = "天使报信与施洗约翰的诞生";
+
+// 音频文件路径（生成后放到 public/audio/ 下）
+// const audioSrc = "/audio/luke-1.mp3";
+const audioSrc = "";
+
+const scripture = `路加福音第一章（和合本节选）
+
+【1:1-4】提阿非罗大人哪，有好些人提笔作书，述说在我们中间所成就的事，是照传道的人从起初亲眼看见、又传给我们的。这些事我既从起头都详细考察了，就定意要按着次序写给你，使你知道所学之道都是确实的。
+
+【1:26-38】到了第六个月，天使加百列奉神的差遣，往加利利的一座城去，这城名叫拿撒勒，到一个童女那里，是已经许配大卫家的一个人，名叫约瑟。童女的名字叫马利亚。天使进去，对她说："蒙大恩的女子，我问你安，主和你同在了！"马利亚因这话就很惊慌，又反复思想这样问安是什么意思。天使对她说："马利亚，不要怕！你在神面前已经蒙恩了。你要怀孕生子，可以给他起名叫耶稣。"`;
+
+const background = `**时代背景：罗马统治下的犹太人**
+
+路加福音写作的时代，犹太地区被罗马帝国统治。大多数普通人——农民、渔夫、工匠——生活在重税和异族统治的压力下。他们盼望一位像大卫王一样的救主，能带领他们摆脱压迫。
+
+但神选择的方式出乎所有人的意料：祂没有降临在宫殿里，没有选择将军的儿子，而是来到一个叫拿撒勒的小村庄，选择了一个无名少女。
+
+**人物小注：**
+- **撒迦利亚与伊利莎白**：一对年迈的祭司夫妇，多年求子未果。
+- **马利亚**：约十四五岁的少女，已许配给木匠约瑟，还未完婚。
+- **加百列**：意为"神的勇士"，出现在圣经最重要的时刻。`;
+
+const parallels = `**平行参考：马太福音 1:18-25**
+
+马太从约瑟的视角讲述同一事件：约瑟发现马利亚有孕，准备悄悄退婚，但天使也向他显现，告诉他孩子来自圣灵。
+
+两个故事合在一起，让我们看到神如何同时安慰了两个处于困境中的人——一个害怕被误解的少女，和一个困惑又善良的男人。`;
+
+const questions = [
+  {
+    q: "撒迦利亚和伊利莎白等待了很多年才得到孩子。你们生命中有没有等待了很久才盼到的事情？那段等待的时间里，是什么支撑着你们？",
+  },
+  {
+    q: `马利亚说"情愿照你的话成就在我身上"——这是一句很不容易说出口的话。你觉得她当时心里在想什么？如果是你，你能说出这句话吗？`,
+  },
+  {
+    q: `这一章里，神选择了两个"不可能的人"来完成祂的计划：一对老夫妇，和一个未婚少女。你觉得神为什么偏偏喜欢选择这样的人？`,
+  },
+];
+---
+<BaseLayout title={`第 ${chapter} 章：${title} · 路加福音陪读`}>
+  <style>
+    .nav-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: var(--color-accent-dark);
+      text-decoration: none;
+      font-size: 0.85rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .nav-back:hover { text-decoration: underline; }
+
+    .chapter-header {
+      margin-bottom: 2rem;
+    }
+
+    .chapter-label {
+      font-size: 0.85rem;
+      color: var(--color-text-muted);
+      margin-bottom: 0.3rem;
+    }
+
+    .chapter-title {
+      font-family: var(--font-serif);
+      font-size: 1.5rem;
+      color: var(--color-text);
+      line-height: 1.4;
+    }
+
+    /* 音频播放器 */
+    .audio-section {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 1.2rem 1.3rem;
+      margin-bottom: 2rem;
+    }
+
+    .audio-section h2 {
+      font-family: var(--font-serif);
+      font-size: 1rem;
+      margin-bottom: 0.8rem;
+      color: var(--color-accent-dark);
+    }
+
+    .audio-section p {
+      font-size: 0.85rem;
+      color: var(--color-text-muted);
+      margin-top: 0.6rem;
+    }
+
+    audio {
+      width: 100%;
+      border-radius: 8px;
+    }
+
+    .audio-placeholder {
+      background: var(--color-accent-light);
+      border-radius: 8px;
+      padding: 1.2rem;
+      text-align: center;
+      color: var(--color-text-muted);
+      font-size: 0.9rem;
+    }
+
+    /* 各内容块通用 */
+    .content-block {
+      margin-bottom: 2rem;
+    }
+
+    .content-block h2 {
+      font-family: var(--font-serif);
+      font-size: 1rem;
+      color: var(--color-text-muted);
+      letter-spacing: 0.05em;
+      margin-bottom: 0.8rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    /* 经文 */
+    .scripture-text {
+      font-family: var(--font-serif);
+      font-size: 0.95rem;
+      line-height: 2.1;
+      color: var(--color-text);
+      white-space: pre-wrap;
+    }
+
+    details summary {
+      cursor: pointer;
+      color: var(--color-accent-dark);
+      font-size: 0.9rem;
+      padding: 0.5rem 0;
+      user-select: none;
+    }
+
+    details[open] summary { margin-bottom: 0.8rem; }
+
+    /* 背景资料 */
+    .background-text {
+      font-size: 0.9rem;
+      line-height: 1.9;
+      color: var(--color-text);
+    }
+
+    .background-text strong {
+      color: var(--color-accent-dark);
+    }
+
+    /* 思考问题 */
+    .questions-list {
+      display: grid;
+      gap: 0.8rem;
+    }
+
+    .question-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-left: 3px solid var(--color-accent);
+      border-radius: 0 8px 8px 0;
+      padding: 0.9rem 1rem;
+    }
+
+    .question-num {
+      font-size: 0.75rem;
+      color: var(--color-accent);
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+    }
+
+    .question-text {
+      font-family: var(--font-serif);
+      font-size: 0.95rem;
+      line-height: 1.8;
+    }
+
+    /* 章节导航 */
+    .chapter-nav {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--color-border);
+    }
+
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.6rem 1.2rem;
+      background: var(--color-accent-light);
+      color: var(--color-accent-dark);
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: background 0.15s;
+    }
+
+    .nav-btn:hover { background: var(--color-accent); color: white; }
+  </style>
+
+  <a href="/" class="nav-back">← 返回章节目录</a>
+
+  <div class="chapter-header">
+    <div class="chapter-label">路加福音 · 第 {chapter} 章</div>
+    <h1 class="chapter-title">{title}</h1>
+  </div>
+
+  <!-- 音频讲解 -->
+  <div class="audio-section">
+    <h2>🎧 本章音频讲解（约10分钟）</h2>
+    {audioSrc ? (
+      <>
+        <audio controls src={audioSrc}></audio>
+        <p>建议先听音频，再读经文和思考问题</p>
+      </>
+    ) : (
+      <div class="audio-placeholder">
+        音频整理中，即将上线……<br />
+        <small>可先阅读下方经文和背景资料</small>
+      </div>
+    )}
+  </div>
+
+  <!-- 本章经文 -->
+  <div class="content-block">
+    <h2>📖 本章经文（节选）</h2>
+    <details>
+      <summary>点击展开经文</summary>
+      <p class="scripture-text">{scripture}</p>
+    </details>
+  </div>
+
+  <!-- 背景资料 -->
+  <div class="content-block">
+    <h2>🌍 背景资料</h2>
+    <div class="background-text" set:html={background.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br/>')} />
+  </div>
+
+  <!-- 平行参考 -->
+  <div class="content-block">
+    <h2>📚 平行参考</h2>
+    <div class="background-text" set:html={parallels.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br/>')} />
+  </div>
+
+  <!-- 思考问题 -->
+  <div class="content-block">
+    <h2>💭 思考与交流</h2>
+    <div class="questions-list">
+      {questions.map((item, i) => (
+        <div class="question-card">
+          <div class="question-num">问题 {i + 1}</div>
+          <div class="question-text">{item.q}</div>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <div class="chapter-nav">
+    <a href="/luke/2" class="nav-btn">第 2 章 →</a>
+  </div>
+</BaseLayout>

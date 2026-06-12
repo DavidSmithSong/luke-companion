@@ -1,0 +1,97 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+}
+const { title, description = "陪父母一起读路加福音" } = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;700&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --color-bg: #fdf8f3;
+      --color-surface: #fff9f4;
+      --color-border: #e8ddd0;
+      --color-text: #3d2b1f;
+      --color-text-muted: #8a6e5e;
+      --color-accent: #c17f4a;
+      --color-accent-light: #f4e8d8;
+      --color-accent-dark: #9a5e2e;
+      --font-serif: 'Noto Serif SC', 'Songti SC', serif;
+      --font-sans: 'Noto Sans SC', 'PingFang SC', sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--color-bg);
+      color: var(--color-text);
+      font-family: var(--font-sans);
+      font-size: 17px;
+      line-height: 1.8;
+      min-height: 100vh;
+    }
+
+    header {
+      background: var(--color-surface);
+      border-bottom: 1px solid var(--color-border);
+      padding: 1.2rem 1.5rem;
+      text-align: center;
+    }
+
+    header a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    header h1 {
+      font-family: var(--font-serif);
+      font-size: 1.3rem;
+      color: var(--color-accent-dark);
+      letter-spacing: 0.05em;
+    }
+
+    header p {
+      font-size: 0.85rem;
+      color: var(--color-text-muted);
+      margin-top: 0.2rem;
+    }
+
+    main {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.8rem;
+      color: var(--color-text-muted);
+      border-top: 1px solid var(--color-border);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="/">
+      <h1>路加福音陪读</h1>
+      <p>每周一章，慢慢读，细细想</p>
+    </a>
+  </header>
+  <main>
+    <slot />
+  </main>
+  <footer>
+    <p>为父母用心整理 · 愿神的话语温暖每个家庭</p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,7 @@
+.env
+node_modules/
+site/.astro/
+site/dist/
+chapters/*.md
+__pycache__/
+*.pyc

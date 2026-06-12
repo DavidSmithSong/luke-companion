@@ -1,0 +1,172 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const chapters = Array.from({ length: 24 }, (_, i) => i + 1);
+
+const chapterTitles: Record<number, string> = {
+  1: "天使报信与施洗约翰的诞生",
+  2: "耶稣的降生",
+  3: "施洗约翰与耶稣受洗",
+  4: "旷野受试探与拿撒勒讲道",
+  5: "呼召门徒与洁净麻风病人",
+  6: "登山宝训",
+  7: "百夫长的仆人与寡妇的儿子",
+  8: "撒种的比喻与平静风浪",
+  9: "五饼二鱼与变容",
+  10: "差遣七十二人与好撒玛利亚人",
+  11: "主祷文与光明的比喻",
+  12: "不要忧虑与儆醒的比喻",
+  13: "无花果树与窄门",
+  14: "宴席的比喻",
+  15: "迷失的羊、失落的钱币与浪子",
+  16: "不义管家与富人与拉撒路",
+  17: "饶恕与感恩的十个麻风病人",
+  18: "法官与寡妇、法利赛人与税吏",
+  19: "撒该与进入耶路撒冷",
+  20: "葡萄园的比喻与纳税问题",
+  21: "寡妇的两个小钱与末世预言",
+  22: "最后的晚餐与被捕",
+  23: "受审与十字架",
+  24: "复活与升天",
+};
+
+// 已发布的章节编号
+const publishedChapters = [1];
+---
+<BaseLayout title="路加福音陪读 · 章节目录">
+  <style>
+    .intro {
+      background: var(--color-accent-light);
+      border-left: 3px solid var(--color-accent);
+      border-radius: 0 8px 8px 0;
+      padding: 1rem 1.2rem;
+      margin-bottom: 2.5rem;
+      font-family: var(--font-serif);
+      font-size: 0.95rem;
+      color: var(--color-text);
+      line-height: 2;
+    }
+
+    .section-title {
+      font-family: var(--font-serif);
+      font-size: 1rem;
+      color: var(--color-text-muted);
+      letter-spacing: 0.1em;
+      margin-bottom: 1rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .chapter-grid {
+      display: grid;
+      gap: 0.6rem;
+    }
+
+    .chapter-card {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.9rem 1rem;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 10px;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--color-accent);
+      box-shadow: 0 2px 8px rgba(193, 127, 74, 0.12);
+    }
+
+    .chapter-card.locked {
+      opacity: 0.45;
+      pointer-events: none;
+    }
+
+    .chapter-num {
+      width: 2.2rem;
+      height: 2.2rem;
+      border-radius: 50%;
+      background: var(--color-accent-light);
+      color: var(--color-accent-dark);
+      font-family: var(--font-serif);
+      font-size: 0.95rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .chapter-card:hover .chapter-num {
+      background: var(--color-accent);
+      color: white;
+    }
+
+    .chapter-info { flex: 1; }
+
+    .chapter-label {
+      font-size: 0.8rem;
+      color: var(--color-text-muted);
+    }
+
+    .chapter-name {
+      font-family: var(--font-serif);
+      font-size: 0.95rem;
+    }
+
+    .tag-new {
+      display: inline-block;
+      background: var(--color-accent);
+      color: white;
+      font-size: 0.7rem;
+      padding: 0.1rem 0.45rem;
+      border-radius: 99px;
+      margin-left: 0.4rem;
+      vertical-align: middle;
+    }
+
+    .chapter-status {
+      font-size: 0.75rem;
+      color: var(--color-text-muted);
+      white-space: nowrap;
+    }
+  </style>
+
+  <p class="intro">
+    欢迎来到路加福音陪读。每周一章，这里有音频讲解、经文原文和一些思考问题，帮助你们在读经的路上走得更稳。
+  </p>
+
+  <h2 class="section-title">章节目录</h2>
+
+  <div class="chapter-grid">
+    {chapters.map((n) => {
+      const isReady = publishedChapters.includes(n);
+      const isNewest = n === Math.max(...publishedChapters);
+      return isReady ? (
+        <a href={`/luke/${n}`} class="chapter-card">
+          <div class="chapter-num">{n}</div>
+          <div class="chapter-info">
+            <div class="chapter-label">第 {n} 章</div>
+            <div class="chapter-name">
+              {chapterTitles[n]}
+              {isNewest && <span class="tag-new">新</span>}
+            </div>
+          </div>
+          <div class="chapter-status">▶ 已更新</div>
+        </a>
+      ) : (
+        <div class="chapter-card locked">
+          <div class="chapter-num">{n}</div>
+          <div class="chapter-info">
+            <div class="chapter-label">第 {n} 章</div>
+            <div class="chapter-name">{chapterTitles[n]}</div>
+          </div>
+          <div class="chapter-status">即将更新</div>
+        </div>
+      );
+    })}
+  </div>
+</BaseLayout>
