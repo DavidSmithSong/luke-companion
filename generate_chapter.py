@@ -10,7 +10,7 @@ import sys
 import os
 import re
 import httpx
-import anthropic
+from google import genai
 from pathlib import Path
 
 # 从 .env 文件加载 key（优先于环境变量）
@@ -25,17 +25,18 @@ def _load_env():
 
 _load_env()
 
+_gemini_client = None
+
 def _check_api_key():
-    key = os.environ.get("ANTHROPIC_API_KEY", "")
-    if not key.startswith("sk-ant-"):
-        print("❌ 未找到有效的 Anthropic API key。")
+    global _gemini_client
+    key = os.environ.get("GEMINI_API_KEY", "")
+    if not key:
+        print("❌ 未找到 GEMINI_API_KEY。")
         print()
-        print("请按以下步骤设置：")
-        print("  1. 访问 https://console.anthropic.com/settings/keys")
-        print("  2. 创建新 key（以 sk-ant- 开头）")
-        print("  3. 在本目录创建 .env 文件：")
-        print("     echo 'ANTHROPIC_API_KEY=sk-ant-你的key' > .env")
+        print("请在本目录创建 .env 文件：")
+        print("  echo 'GEMINI_API_KEY=你的key' > .env")
         sys.exit(1)
+    _gemini_client = genai.Client(api_key=key)
 
 # ── 圣经文本抓取 ──────────────────────────────────────────────
 
@@ -81,7 +82,7 @@ def fetch_scripture(chapter: int) -> str:
     return "\n".join(lines)
 
 
-# ── Claude 生成辅助内容 ───────────────────────────────────────
+# ── Gemini 生成辅助内容 ───────────────────────────────────────
 
 SYSTEM_PROMPT = """你是一位帮助普通信徒读圣经的助手。
 你的读者是中国大陆的退休老人，受教育程度中等，对圣经不熟悉但愿意学习。
@@ -93,10 +94,10 @@ SYSTEM_PROMPT = """你是一位帮助普通信徒读圣经的助手。
 
 
 def generate_study_content(chapter: int, scripture: str) -> dict:
-    """调用 Claude 生成背景、类比和问题。"""
-    client = anthropic.Anthropic()
+    """调用 Gemini 生成背景、类比和问题。"""
+    full_prompt = f"""{SYSTEM_PROMPT}
 
-    prompt = f"""以下是路加福音第{chapter}章的经文：
+以下是路加福音第{chapter}章的经文：
 
 {scripture}
 
@@ -136,16 +137,11 @@ def generate_study_content(chapter: int, scripture: str) -> dict:
 问题2：[内容]
 问题3：[内容]"""
 
-    message = client.messages.create(
-        model="claude-sonnet-4-6",
-        max_tokens=1500,
-        messages=[
-            {"role": "user", "content": prompt}
-        ],
-        system=SYSTEM_PROMPT
+    response = _gemini_client.models.generate_content(
+        model="models/gemini-flash-latest",
+        contents=full_prompt,
     )
-
-    raw = message.content[0].text
+    raw = response.text
 
     # 解析各个部分
     sections = {}
@@ -269,7 +265,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
 const chapter = {chapter};
 const title = "{title}";
-const audioSrc = ""; // 上传音频后填入路径，如 "/audio/luke-{chapter}.mp3"
+const videoSrc = ""; // NotebookLM 视频下载后放到 public/video/，如 "/video/luke-{chapter}.mp4"
 
 const scripture = `{scripture_escaped}`;
 const background = `{background_escaped}`;
@@ -284,10 +280,14 @@ const questions = [
     .nav-back:hover {{ text-decoration:underline; }}
     .chapter-label {{ font-size:.85rem;color:var(--color-text-muted);margin-bottom:.3rem; }}
     .chapter-title {{ font-family:var(--font-serif);font-size:1.5rem;line-height:1.4;margin-bottom:2rem; }}
-    .audio-section {{ background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;padding:1.2rem 1.3rem;margin-bottom:2rem; }}
-    .audio-section h2 {{ font-family:var(--font-serif);font-size:1rem;margin-bottom:.8rem;color:var(--color-accent-dark); }}
-    .audio-placeholder {{ background:var(--color-accent-light);border-radius:8px;padding:1.2rem;text-align:center;color:var(--color-text-muted);font-size:.9rem; }}
-    audio {{ width:100%;border-radius:8px; }}
+    .video-section {{ background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;padding:1.2rem 1.3rem;margin-bottom:2rem; }}
+    .video-section h2 {{ font-family:var(--font-serif);font-size:1rem;margin-bottom:.8rem;color:var(--color-accent-dark); }}
+    .video-placeholder {{ background:var(--color-accent-light);border-radius:8px;padding:1.2rem;text-align:center;color:var(--color-text-muted);font-size:.9rem; }}
+    video {{ width:100%;border-radius:8px;max-height:400px;background:#000; }}
+    .tts-bar {{ display:flex;align-items:center;gap:.6rem;margin-top:.8rem; }}
+    .tts-btn {{ display:inline-flex;align-items:center;gap:.35rem;padding:.4rem .9rem;background:var(--color-accent-light);color:var(--color-accent-dark);border:1px solid var(--color-border);border-radius:99px;font-size:.82rem;cursor:pointer;font-family:var(--font-sans); }}
+    .tts-btn:hover,.tts-btn.playing {{ background:var(--color-accent);color:white;border-color:var(--color-accent); }}
+    .tts-hint {{ font-size:.78rem;color:var(--color-text-muted); }}
     .content-block {{ margin-bottom:2rem; }}
     .content-block h2 {{ font-family:var(--font-serif);font-size:1rem;color:var(--color-text-muted);margin-bottom:.8rem;padding-bottom:.4rem;border-bottom:1px solid var(--color-border); }}
     .scripture-text {{ font-family:var(--font-serif);font-size:.95rem;line-height:2.1;white-space:pre-wrap; }}
@@ -307,18 +307,25 @@ const questions = [
   <div class="chapter-label">路加福音 · 第 {{chapter}} 章</div>
   <h1 class="chapter-title">{{title}}</h1>
 
-  <div class="audio-section">
-    <h2>🎧 本章音频讲解（约10分钟）</h2>
-    {{audioSrc ? (
-      <><audio controls src={{audioSrc}}></audio><p style="font-size:.85rem;color:var(--color-text-muted);margin-top:.6rem">建议先听音频，再读经文和思考问题</p></>
+  <div class="video-section">
+    <h2>🎬 本章视频讲解（约10分钟）</h2>
+    {{videoSrc ? (
+      <><video controls src={{videoSrc}} preload="metadata"></video><p style="font-size:.85rem;color:var(--color-text-muted);margin-top:.6rem">建议先看视频，再读经文和思考问题</p></>
     ) : (
-      <div class="audio-placeholder">音频整理中，即将上线……<br/><small>可先阅读下方经文和背景资料</small></div>
+      <div class="video-placeholder">视频整理中，即将上线……<br/><small>可先阅读下方经文和背景资料</small></div>
     )}}
   </div>
 
   <div class="content-block">
     <h2>📖 本章经文（和合本）</h2>
-    <details><summary>点击展开经文</summary><p class="scripture-text">{{scripture}}</p></details>
+    <details>
+      <summary>点击展开经文</summary>
+      <p class="scripture-text" id="scripture-text">{{scripture}}</p>
+      <div class="tts-bar">
+        <button class="tts-btn" id="tts-btn" onclick="toggleRead()">🔊 朗读经文</button>
+        <span class="tts-hint">点击朗读，再次点击停止</span>
+      </div>
+    </details>
   </div>
 
   <div class="content-block">
@@ -347,6 +354,28 @@ const questions = [
     {prev_link}
     {next_link}
   </div>
+
+  <script>
+    let utterance = null;
+    function toggleRead() {{
+      const btn = document.getElementById('tts-btn');
+      const text = document.getElementById('scripture-text')?.textContent || '';
+      if (window.speechSynthesis.speaking) {{
+        window.speechSynthesis.cancel();
+        btn.textContent = '🔊 朗读经文';
+        btn.classList.remove('playing');
+        return;
+      }}
+      utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'zh-CN';
+      utterance.rate = 0.85;
+      utterance.onend = () => {{ btn.textContent = '🔊 朗读经文'; btn.classList.remove('playing'); }};
+      window.speechSynthesis.speak(utterance);
+      btn.textContent = '⏹ 停止朗读';
+      btn.classList.add('playing');
+    }}
+    window.toggleRead = toggleRead;
+  </script>
 </BaseLayout>
 """
 
@@ -405,7 +434,7 @@ def main():
     print(f"     {len(scripture)} 字符")
 
     # 2. 生成辅助内容
-    print("  → 调用 Claude 生成背景/类比/问题...")
+    print("  → 调用 Gemini 生成背景/类比/问题...")
     sections = generate_study_content(chapter, scripture)
     print("     完成")
 
@@ -425,9 +454,9 @@ def main():
     print(f"  ✅ 网站页面：{astro_path}")
 
     print(f"\n下一步：")
-    print(f"  1. 打开 {md_path}，上传到 notebooklm.google.com 生成音频")
-    print(f"  2. 下载音频，保存为 site/public/audio/luke-{chapter}.mp3")
-    print(f"  3. 在 {astro_path} 中将 audioSrc 改为 \"/audio/luke-{chapter}.mp3\"")
+    print(f"  1. 打开 {md_path}，上传到 notebooklm.google.com 生成 Video Overview")
+    print(f"  2. 下载视频，保存为 site/public/video/luke-{chapter}.mp4")
+    print(f"  3. 在 {astro_path} 中将 videoSrc 改为 \"/video/luke-{chapter}.mp4\"")
     print(f"  4. 更新 site/src/pages/index.astro 中的 publishedChapters 数组，加入 {chapter}")
 
 
