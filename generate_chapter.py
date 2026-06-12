@@ -276,13 +276,17 @@ const questions = [
 ---
 <BaseLayout title={{`第 ${{chapter}} 章：${{title}} · 路加福音陪读`}}>
   <style>
+    .toc {{ position:fixed;top:50%;left:max(1rem,calc(50% - 360px - 148px));transform:translateY(-50%);display:flex;flex-direction:column;gap:.35rem;width:120px;z-index:100; }}
+    .toc a {{ display:block;padding:.45rem .7rem;font-size:.8rem;color:var(--color-text-muted);text-decoration:none;border-left:2px solid var(--color-border);border-radius:0 6px 6px 0;line-height:1.4;transition:color .15s,border-color .15s,background .15s; }}
+    .toc a:hover,.toc a.active {{ color:var(--color-accent-dark);border-color:var(--color-accent);background:var(--color-accent-light);font-weight:600; }}
+    @media (max-width:1000px) {{ .toc {{ display:none; }} }}
     .nav-back {{ display:inline-flex;align-items:center;gap:.4rem;color:var(--color-accent-dark);text-decoration:none;font-size:.85rem;margin-bottom:1.5rem; }}
     .nav-back:hover {{ text-decoration:underline; }}
     .chapter-label {{ font-size:.85rem;color:var(--color-text-muted);margin-bottom:.3rem; }}
     .chapter-title {{ font-family:var(--font-serif);font-size:1.5rem;line-height:1.4;margin-bottom:2rem; }}
     .video-section {{ background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;padding:1.2rem 1.3rem;margin-bottom:2rem; }}
     .video-section h2 {{ font-family:var(--font-serif);font-size:1rem;margin-bottom:.8rem;color:var(--color-accent-dark); }}
-    .video-placeholder {{ background:var(--color-accent-light);border-radius:8px;padding:1.2rem;text-align:center;color:var(--color-text-muted);font-size:.9rem; }}
+    .video-placeholder {{ background:var(--color-accent-light);border-radius:8px;padding:1.2rem;text-align:center;color:var(--color-text-muted);font-size:.9rem;line-height:2; }}
     video {{ width:100%;border-radius:8px;max-height:400px;background:#000; }}
     .tts-bar {{ display:flex;align-items:center;gap:.6rem;margin-top:.8rem; }}
     .tts-btn {{ display:inline-flex;align-items:center;gap:.35rem;padding:.4rem .9rem;background:var(--color-accent-light);color:var(--color-accent-dark);border:1px solid var(--color-border);border-radius:99px;font-size:.82rem;cursor:pointer;font-family:var(--font-sans); }}
@@ -290,24 +294,35 @@ const questions = [
     .tts-hint {{ font-size:.78rem;color:var(--color-text-muted); }}
     .content-block {{ margin-bottom:2rem; }}
     .content-block h2 {{ font-family:var(--font-serif);font-size:1rem;color:var(--color-text-muted);margin-bottom:.8rem;padding-bottom:.4rem;border-bottom:1px solid var(--color-border); }}
-    .scripture-text {{ font-family:var(--font-serif);font-size:.95rem;line-height:2.1;white-space:pre-wrap; }}
-    details summary {{ cursor:pointer;color:var(--color-accent-dark);font-size:.9rem;padding:.5rem 0;user-select:none; }}
-    details[open] summary {{ margin-bottom:.8rem; }}
+    .scripture-text {{ font-family:var(--font-serif);font-size:.95rem;line-height:2.2;white-space:pre-wrap;color:var(--color-text); }}
     .prose {{ font-size:.9rem;line-height:1.9; }}
-    .questions-list {{ display:grid;gap:.8rem; }}
+    .questions-list {{ display:grid;gap:1.2rem; }}
     .question-card {{ background:var(--color-surface);border:1px solid var(--color-border);border-left:3px solid var(--color-accent);border-radius:0 8px 8px 0;padding:.9rem 1rem; }}
     .question-num {{ font-size:.75rem;color:var(--color-accent);font-weight:700;margin-bottom:.3rem; }}
-    .question-text {{ font-family:var(--font-serif);font-size:.95rem;line-height:1.8; }}
+    .question-text {{ font-family:var(--font-serif);font-size:.95rem;line-height:1.8;margin-bottom:.75rem; }}
+    .answer-label {{ font-size:.78rem;color:var(--color-text-muted);margin-bottom:.3rem; }}
+    .answer-box {{ width:100%;box-sizing:border-box;min-height:80px;padding:.6rem .75rem;font-family:var(--font-sans);font-size:.88rem;line-height:1.7;color:var(--color-text);background:var(--color-bg);border:1px solid var(--color-border);border-radius:6px;resize:vertical;outline:none;transition:border-color .15s; }}
+    .answer-box:focus {{ border-color:var(--color-accent); }}
+    .save-hint {{ font-size:.75rem;color:var(--color-text-muted);margin-top:.3rem;min-height:1.2em;transition:opacity .3s; }}
+    .save-hint.saved {{ color:#6a9e6a; }}
     .chapter-nav {{ display:flex;justify-content:space-between;margin-top:3rem;padding-top:1.5rem;border-top:1px solid var(--color-border); }}
     .nav-btn {{ display:inline-flex;align-items:center;gap:.4rem;padding:.6rem 1.2rem;background:var(--color-accent-light);color:var(--color-accent-dark);border-radius:8px;text-decoration:none;font-size:.9rem;transition:background .15s; }}
     .nav-btn:hover {{ background:var(--color-accent);color:white; }}
   </style>
 
+  <nav class="toc" aria-label="页面目录">
+    <a href="#video">🎬 视频</a>
+    <a href="#scripture">📖 经文</a>
+    <a href="#background">🌍 背景</a>
+    <a href="#parallel">📚 参考</a>
+    <a href="#questions">💭 思考</a>
+  </nav>
+
   <a href="/" class="nav-back">← 返回章节目录</a>
   <div class="chapter-label">路加福音 · 第 {{chapter}} 章</div>
   <h1 class="chapter-title">{{title}}</h1>
 
-  <div class="video-section">
+  <div id="video" class="video-section">
     <h2>🎬 本章视频讲解（约10分钟）</h2>
     {{videoSrc ? (
       <><video controls src={{videoSrc}} preload="metadata"></video><p style="font-size:.85rem;color:var(--color-text-muted);margin-top:.6rem">建议先看视频，再读经文和思考问题</p></>
@@ -316,35 +331,35 @@ const questions = [
     )}}
   </div>
 
-  <div class="content-block">
+  <div id="scripture" class="content-block">
     <h2>📖 本章经文（和合本）</h2>
-    <details>
-      <summary>点击展开经文</summary>
-      <p class="scripture-text" id="scripture-text">{{scripture}}</p>
-      <div class="tts-bar">
-        <button class="tts-btn" id="tts-btn" onclick="toggleRead()">🔊 朗读经文</button>
-        <span class="tts-hint">点击朗读，再次点击停止</span>
-      </div>
-    </details>
+    <p class="scripture-text" id="scripture-text">{{scripture}}</p>
+    <div class="tts-bar">
+      <button class="tts-btn" id="tts-btn" onclick="toggleRead()">🔊 朗读经文</button>
+      <span class="tts-hint">点击朗读，再次点击停止</span>
+    </div>
   </div>
 
-  <div class="content-block">
+  <div id="background" class="content-block">
     <h2>🌍 背景资料</h2>
     <p class="prose">{{background}}</p>
   </div>
 
-  <div class="content-block">
+  <div id="parallel" class="content-block">
     <h2>📚 平行参考</h2>
     <p class="prose">{{parallel}}</p>
   </div>
 
-  <div class="content-block">
+  <div id="questions" class="content-block">
     <h2>💭 思考与交流</h2>
     <div class="questions-list">
       {{questions.map((item, i) => (
         <div class="question-card">
           <div class="question-num">问题 {{i + 1}}</div>
           <div class="question-text">{{item.q}}</div>
+          <div class="answer-label">您的想法：</div>
+          <textarea class="answer-box" data-key={{`luke-{chapter}-q-${{i}}`}} placeholder="在这里写下您的想法……" oninput="saveAnswer(this)"></textarea>
+          <div class="save-hint" id={{`hint-${{i}}`}}></div>
         </div>
       ))}}
     </div>
@@ -375,6 +390,34 @@ const questions = [
       btn.classList.add('playing');
     }}
     window.toggleRead = toggleRead;
+
+    document.querySelectorAll('.answer-box').forEach((el) => {{
+      const saved = localStorage.getItem(el.dataset.key);
+      if (saved) {{ el.value = saved; el.style.height = el.scrollHeight + 'px'; }}
+    }});
+
+    let saveTimers = {{}};
+    function saveAnswer(el) {{
+      el.style.height = 'auto';
+      el.style.height = el.scrollHeight + 'px';
+      const key = el.dataset.key;
+      clearTimeout(saveTimers[key]);
+      saveTimers[key] = setTimeout(() => {{
+        localStorage.setItem(key, el.value);
+        const idx = key.split('-').pop();
+        const hint = document.getElementById('hint-' + idx);
+        if (hint) {{ hint.textContent = '✓ 已保存'; hint.classList.add('saved'); setTimeout(() => {{ hint.textContent = ''; hint.classList.remove('saved'); }}, 2000); }}
+      }}, 600);
+    }}
+    window.saveAnswer = saveAnswer;
+
+    const sections = ['video','scripture','background','parallel','questions'];
+    const tocLinks = {{}};
+    sections.forEach(id => {{ const a = document.querySelector(`.toc a[href="#${{id}}"]`); if (a) tocLinks[id] = a; }});
+    const obs = new IntersectionObserver((entries) => {{
+      entries.forEach(e => {{ if (e.isIntersecting) {{ Object.values(tocLinks).forEach(a => a.classList.remove('active')); if (tocLinks[e.target.id]) tocLinks[e.target.id].classList.add('active'); }} }});
+    }}, {{ rootMargin: '-20% 0px -60% 0px' }});
+    sections.forEach(id => {{ const el = document.getElementById(id); if (el) obs.observe(el); }});
   </script>
 </BaseLayout>
 """
