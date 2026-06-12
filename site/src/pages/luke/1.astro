@@ -93,59 +93,52 @@ const questions = [
   { q: `伊利莎白和马利亚两个孕妇互相扶持、一起唱歌。在您的朋友圈或邻里中，有没有过这种在困难时互相搭把手、安慰彼此的经历？` }
 ];
 ---
-<BaseLayout title={`第 ${chapter} 章：${title} · 路加福音陪读`}>
+<BaseLayout title={`第 ${chapter} 章：${title} · 路加福音陪读`} wide={true}>
   <style>
-    /* ── 悬浮目录 ── */
-    .toc {
-      position: fixed;
-      top: 50%;
-      left: max(1rem, calc(50% - 360px - 148px));
-      transform: translateY(-50%);
-      display: flex;
-      flex-direction: column;
-      gap: 0.35rem;
-      width: 120px;
-      z-index: 100;
-    }
-    .toc a {
-      display: block;
-      padding: 0.45rem 0.7rem;
-      font-size: 0.8rem;
-      color: var(--color-text-muted);
-      text-decoration: none;
-      border-left: 2px solid var(--color-border);
-      border-radius: 0 6px 6px 0;
-      line-height: 1.4;
-      transition: color 0.15s, border-color 0.15s, background 0.15s;
-      background: transparent;
-    }
-    .toc a:hover { color: var(--color-accent-dark); border-color: var(--color-accent); background: var(--color-accent-light); }
-    .toc a.active { color: var(--color-accent-dark); border-color: var(--color-accent); font-weight: 600; background: var(--color-accent-light); }
-    /* 移动端隐藏目录，改为顶部小条 */
-    @media (max-width: 1000px) { .toc { display: none; } }
-
-    /* ── 导航 ── */
-    .nav-back { display:inline-flex;align-items:center;gap:.4rem;color:var(--color-accent-dark);text-decoration:none;font-size:.85rem;margin-bottom:1.5rem; }
+    /* ── 页头 ── */
+    .nav-back { display:inline-flex;align-items:center;gap:.4rem;color:var(--color-accent-dark);text-decoration:none;font-size:.85rem;margin-bottom:1.2rem; }
     .nav-back:hover { text-decoration:underline; }
-    .chapter-label { font-size:.85rem;color:var(--color-text-muted);margin-bottom:.3rem; }
-    .chapter-title { font-family:var(--font-serif);font-size:1.5rem;line-height:1.4;margin-bottom:2rem; }
+    .chapter-label { font-size:.85rem;color:var(--color-text-muted);margin-bottom:.25rem; }
+    .chapter-title { font-family:var(--font-serif);font-size:1.5rem;line-height:1.4;margin-bottom:1.8rem; }
+
+    /* ── 分栏布局 ── */
+    .two-col {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 2rem;
+      align-items: start;
+    }
+    @media (max-width: 860px) {
+      .two-col { grid-template-columns: 1fr; }
+      .scripture-col { position:static !important; max-height:none !important; overflow-y:visible !important; border-right:none !important; border-bottom:1px solid var(--color-border); padding-right:0 !important; padding-bottom:1.5rem; margin-bottom:.5rem; }
+    }
+
+    /* ── 左栏：经文 ── */
+    .scripture-col {
+      position: sticky;
+      top: 1.5rem;
+      max-height: calc(100vh - 3rem);
+      overflow-y: auto;
+      padding-right: 1.2rem;
+      border-right: 1px solid var(--color-border);
+      scrollbar-width: thin;
+      scrollbar-color: var(--color-border) transparent;
+    }
+    .scripture-col h2 { font-family:var(--font-serif);font-size:.95rem;color:var(--color-text-muted);margin-bottom:.8rem;padding-bottom:.4rem;border-bottom:1px solid var(--color-border); }
+    .scripture-text { font-family:var(--font-serif);font-size:.9rem;line-height:2.2;white-space:pre-wrap;color:var(--color-text); }
+
+    /* ── 右栏：内容 ── */
+    .content-col { min-width:0; }
 
     /* ── 视频 ── */
-    .video-section { background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;padding:1.2rem 1.3rem;margin-bottom:2rem; }
+    .video-section { background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;padding:1.2rem 1.3rem;margin-bottom:1.8rem; }
     .video-section h2 { font-family:var(--font-serif);font-size:1rem;margin-bottom:.8rem;color:var(--color-accent-dark); }
     .video-placeholder { background:var(--color-accent-light);border-radius:8px;padding:1.2rem;text-align:center;color:var(--color-text-muted);font-size:.9rem;line-height:2; }
-    video { width:100%;border-radius:8px;max-height:400px;background:#000; }
-
-    /* ── 朗读 ── */
-    .tts-bar { display:flex;align-items:center;gap:.6rem;margin-top:.8rem; }
-    .tts-btn { display:inline-flex;align-items:center;gap:.35rem;padding:.4rem .9rem;background:var(--color-accent-light);color:var(--color-accent-dark);border:1px solid var(--color-border);border-radius:99px;font-size:.82rem;cursor:pointer;font-family:var(--font-sans); }
-    .tts-btn:hover,.tts-btn.playing { background:var(--color-accent);color:white;border-color:var(--color-accent); }
-    .tts-hint { font-size:.78rem;color:var(--color-text-muted); }
+    video { width:100%;border-radius:8px;max-height:360px;background:#000; }
 
     /* ── 内容块 ── */
-    .content-block { margin-bottom:2rem; }
+    .content-block { margin-bottom:1.8rem; }
     .content-block h2 { font-family:var(--font-serif);font-size:1rem;color:var(--color-text-muted);margin-bottom:.8rem;padding-bottom:.4rem;border-bottom:1px solid var(--color-border); }
-    .scripture-text { font-family:var(--font-serif);font-size:.95rem;line-height:2.2;white-space:pre-wrap;color:var(--color-text); }
     .prose { font-size:.9rem;line-height:1.9; }
 
     /* ── 思考问题 + 回答框 ── */
@@ -154,94 +147,68 @@ const questions = [
     .question-num { font-size:.75rem;color:var(--color-accent);font-weight:700;margin-bottom:.3rem; }
     .question-text { font-family:var(--font-serif);font-size:.95rem;line-height:1.8;margin-bottom:.75rem; }
     .answer-label { font-size:.78rem;color:var(--color-text-muted);margin-bottom:.3rem; }
-    .answer-box {
-      width:100%; box-sizing:border-box;
-      min-height:80px;
-      padding:.6rem .75rem;
-      font-family:var(--font-sans);
-      font-size:.88rem;
-      line-height:1.7;
-      color:var(--color-text);
-      background:var(--color-bg);
-      border:1px solid var(--color-border);
-      border-radius:6px;
-      resize:vertical;
-      outline:none;
-      transition:border-color 0.15s;
-    }
+    .answer-box { width:100%;box-sizing:border-box;min-height:80px;padding:.6rem .75rem;font-family:var(--font-sans);font-size:.88rem;line-height:1.7;color:var(--color-text);background:var(--color-bg);border:1px solid var(--color-border);border-radius:6px;resize:vertical;outline:none;transition:border-color .15s; }
     .answer-box:focus { border-color:var(--color-accent); }
-    .save-hint { font-size:.75rem;color:var(--color-text-muted);margin-top:.3rem;min-height:1.2em;transition:opacity .3s; }
+    .save-hint { font-size:.75rem;color:var(--color-text-muted);margin-top:.3rem;min-height:1.2em; }
     .save-hint.saved { color:#6a9e6a; }
 
     /* ── 章节导航 ── */
-    .chapter-nav { display:flex;justify-content:space-between;margin-top:3rem;padding-top:1.5rem;border-top:1px solid var(--color-border); }
+    .chapter-nav { display:flex;justify-content:space-between;margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid var(--color-border); }
     .nav-btn { display:inline-flex;align-items:center;gap:.4rem;padding:.6rem 1.2rem;background:var(--color-accent-light);color:var(--color-accent-dark);border-radius:8px;text-decoration:none;font-size:.9rem;transition:background .15s; }
     .nav-btn:hover { background:var(--color-accent);color:white; }
   </style>
-
-  <!-- 悬浮目录（宽屏可见） -->
-  <nav class="toc" aria-label="页面目录">
-    <a href="#video">🎬 视频</a>
-    <a href="#scripture">📖 经文</a>
-    <a href="#background">🌍 背景</a>
-    <a href="#parallel">📚 参考</a>
-    <a href="#questions">💭 思考</a>
-  </nav>
 
   <a href="/" class="nav-back">← 返回章节目录</a>
   <div class="chapter-label">路加福音 · 第 {chapter} 章</div>
   <h1 class="chapter-title">{title}</h1>
 
-  <!-- 视频讲解 -->
-  <div id="video" class="video-section">
-    <h2>🎬 本章视频讲解（约10分钟）</h2>
-    {videoSrc ? (
-      <><video controls src={videoSrc} preload="metadata"></video><p style="font-size:.85rem;color:var(--color-text-muted);margin-top:.6rem">建议先看视频，再读经文和思考问题</p></>
-    ) : (
-      <div class="video-placeholder">视频整理中，即将上线……<br/><small>可先阅读下方经文和背景资料</small></div>
-    )}
-  </div>
+  <div class="two-col">
+    <!-- 左栏：经文 -->
+    <aside class="scripture-col">
+      <h2>📖 本章经文（和合本）</h2>
+      <p class="scripture-text">{scripture}</p>
+    </aside>
 
-  <!-- 本章经文 -->
-  <div id="scripture" class="content-block">
-    <h2>📖 本章经文（和合本）</h2>
-    <p class="scripture-text" id="scripture-text">{scripture}</p>
-    <div class="tts-bar">
-      <button class="tts-btn" id="tts-btn" onclick="toggleRead()">🔊 朗读经文</button>
-      <span class="tts-hint">点击朗读，再次点击停止</span>
-    </div>
-  </div>
+    <!-- 右栏：视频 + 内容 + 问题 -->
+    <div class="content-col">
+      <div class="video-section">
+        <h2>🎬 本章视频讲解（约10分钟）</h2>
+        {videoSrc ? (
+          <><video controls src={videoSrc} preload="metadata"></video><p style="font-size:.85rem;color:var(--color-text-muted);margin-top:.6rem">建议先看视频，再读经文和思考问题</p></>
+        ) : (
+          <div class="video-placeholder">视频整理中，即将上线……<br/><small>可先阅读左侧经文和背景资料</small></div>
+        )}
+      </div>
 
-  <!-- 背景资料 -->
-  <div id="background" class="content-block">
-    <h2>🌍 背景资料</h2>
-    <p class="prose">{background}</p>
-  </div>
+      <div class="content-block">
+        <h2>🌍 背景资料</h2>
+        <p class="prose">{background}</p>
+      </div>
 
-  <!-- 平行参考 -->
-  <div id="parallel" class="content-block">
-    <h2>📚 平行参考</h2>
-    <p class="prose">{parallel}</p>
-  </div>
+      <div class="content-block">
+        <h2>📚 平行参考</h2>
+        <p class="prose">{parallel}</p>
+      </div>
 
-  <!-- 思考与交流 -->
-  <div id="questions" class="content-block">
-    <h2>💭 思考与交流</h2>
-    <div class="questions-list">
-      {questions.map((item, i) => (
-        <div class="question-card">
-          <div class="question-num">问题 {i + 1}</div>
-          <div class="question-text">{item.q}</div>
-          <div class="answer-label">您的想法：</div>
-          <textarea
-            class="answer-box"
-            data-key={`luke-${chapter}-q-${i}`}
-            placeholder="在这里写下您的想法……"
-            oninput="saveAnswer(this)"
-          ></textarea>
-          <div class="save-hint" id={`hint-${i}`}></div>
+      <div class="content-block">
+        <h2>💭 思考与交流</h2>
+        <div class="questions-list">
+          {questions.map((item, i) => (
+            <div class="question-card">
+              <div class="question-num">问题 {i + 1}</div>
+              <div class="question-text">{item.q}</div>
+              <div class="answer-label">您的想法：</div>
+              <textarea
+                class="answer-box"
+                data-key={`luke-${chapter}-q-${i}`}
+                placeholder="在这里写下您的想法……"
+                oninput="saveAnswer(this)"
+              ></textarea>
+              <div class="save-hint" id={`hint-${i}`}></div>
+            </div>
+          ))}
         </div>
-      ))}
+      </div>
     </div>
   </div>
 
@@ -251,41 +218,18 @@ const questions = [
   </div>
 
   <script>
-    // ── TTS 朗读 ──
-    let utterance = null;
-    function toggleRead() {
-      const btn = document.getElementById('tts-btn');
-      const text = document.getElementById('scripture-text')?.textContent || '';
-      if (window.speechSynthesis.speaking) {
-        window.speechSynthesis.cancel();
-        btn.textContent = '🔊 朗读经文';
-        btn.classList.remove('playing');
-        return;
-      }
-      utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'zh-CN';
-      utterance.rate = 0.85;
-      utterance.onend = () => { btn.textContent = '🔊 朗读经文'; btn.classList.remove('playing'); };
-      window.speechSynthesis.speak(utterance);
-      btn.textContent = '⏹ 停止朗读';
-      btn.classList.add('playing');
-    }
-    window.toggleRead = toggleRead;
-
-    // ── 答题框：读取 localStorage ──
     document.querySelectorAll('.answer-box').forEach((el) => {
       const key = el.dataset.key;
       if (key) {
         const saved = localStorage.getItem(key);
-        if (saved) el.value = saved;
-        autoResize(el);
+        if (saved) { el.value = saved; el.style.height = el.scrollHeight + 'px'; }
       }
     });
 
-    // ── 答题框：自动保存 ──
     let saveTimers = {};
     function saveAnswer(el) {
-      autoResize(el);
+      el.style.height = 'auto';
+      el.style.height = el.scrollHeight + 'px';
       const key = el.dataset.key;
       if (!key) return;
       clearTimeout(saveTimers[key]);
@@ -301,33 +245,5 @@ const questions = [
       }, 600);
     }
     window.saveAnswer = saveAnswer;
-
-    function autoResize(el) {
-      el.style.height = 'auto';
-      el.style.height = el.scrollHeight + 'px';
-    }
-
-    // ── 悬浮目录：滚动高亮 ──
-    const sections = ['video','scripture','background','parallel','questions'];
-    const tocLinks = {};
-    sections.forEach(id => {
-      const a = document.querySelector(`.toc a[href="#${id}"]`);
-      if (a) tocLinks[id] = a;
-    });
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          Object.values(tocLinks).forEach(a => a.classList.remove('active'));
-          const link = tocLinks[entry.target.id];
-          if (link) link.classList.add('active');
-        }
-      });
-    }, { rootMargin: '-20% 0px -60% 0px' });
-
-    sections.forEach(id => {
-      const el = document.getElementById(id);
-      if (el) observer.observe(el);
-    });
   </script>
 </BaseLayout>

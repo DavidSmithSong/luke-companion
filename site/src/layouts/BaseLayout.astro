@@ -2,8 +2,9 @@
 interface Props {
   title: string;
   description?: string;
+  wide?: boolean;
 }
-const { title, description = "陪父母一起读路加福音" } = Astro.props;
+const { title, description = "陪父母一起读路加福音", wide = false } = Astro.props;
 ---
 <!DOCTYPE html>
 <html lang="zh-Hans">
@@ -71,9 +72,13 @@ const { title, description = "陪父母一起读路加福音" } = Astro.props;
       padding: 2rem 1.5rem 4rem;
     }
 
+    main.wide {
+      max-width: 1160px;
+    }
+
     footer {
       text-align: center;
-      padding: 2rem;
+      padding: 1.5rem 2rem;
       font-size: 0.8rem;
       color: var(--color-text-muted);
       border-top: 1px solid var(--color-border);
@@ -87,11 +92,12 @@ const { title, description = "陪父母一起读路加福音" } = Astro.props;
       <p>每周一章，慢慢读，细细想</p>
     </a>
   </header>
-  <main>
+  <main class={wide ? 'wide' : ''}>
     <slot />
   </main>
   <footer>
     <p>为父母用心整理 · 愿神的话语温暖每个家庭</p>
+    <p style="margin-top:.3rem;opacity:.6">一起读经 0.10</p>
   </footer>
 </body>
 </html>
