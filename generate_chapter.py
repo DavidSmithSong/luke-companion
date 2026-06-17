@@ -87,9 +87,10 @@ def fetch_scripture(chapter: int) -> str:
 SYSTEM_PROMPT = """你是一位帮助普通信徒读圣经的助手。
 你的读者是中国大陆的退休老人，受教育程度中等，对圣经不熟悉但愿意学习。
 写作要求：
-- 语言口语化、亲切，像对父母说话
+- 语言亲切，表达清晰，但不过度口语化，不用"咱们""大老远""生娃"等随意俗语
+- 称呼上帝用"上帝"，不用"老天爷"等民间俗语
 - 不使用神学术语（不说"救赎论""护理""末世论"等）
-- 把神学真理融入具体场景和生活类比
+- 把神学真理融入具体场景和生活类比，说话有温度、有画面感
 - 简体中文，不超过指定字数"""
 
 
@@ -226,11 +227,11 @@ def build_markdown(chapter: int, scripture: str, sections: dict) -> str:
 
 # ── 生成章节页面（Astro 文件）────────────────────────────────
 
-def build_astro_page(chapter: int, title: str, scripture: str, sections: dict) -> str:
+def build_astro_page(chapter: int, title: str, scripture: str, sections: dict,
+                     painting_url: str = "", painting_credit: str = "") -> str:
     background = sections.get("背景", "").replace('"', '\\"')
     parallel = sections.get("平行参考", "").replace('"', '\\"')
     questions_raw = sections.get("思考问题", "")
-    analogies_raw = sections.get("现代类比", "")
 
     # 把问题解析成列表
     question_lines = [l.split("：", 1)[-1].strip()
@@ -242,14 +243,14 @@ def build_astro_page(chapter: int, title: str, scripture: str, sections: dict) -
         question_lines.append("（待补充）")
 
     q_array = ",\n  ".join(
-        f'{{ q: `{q}` }}' for q in question_lines[:3]
+        f'{{ q: `{q.replace("`", chr(39))}` }}' for q in question_lines[:3]
     )
 
-    # 提取类比
+    # 提取类比（仅用于 NotebookLM 文档，不再输出到网页）
+    analogies_raw = sections.get("现代类比", "")
     analogy_lines = [l.split("：", 1)[-1].strip()
                      for l in analogies_raw.split("\n")
                      if l.strip().startswith("类比")]
-    analogies_html = "".join(f"<li>{a}</li>" for a in analogy_lines)
 
     # 上一章/下一章
     prev_link = f'<a href="/luke/{chapter-1}" class="nav-btn">← 第 {chapter-1} 章</a>' if chapter > 1 else ""
@@ -257,15 +258,15 @@ def build_astro_page(chapter: int, title: str, scripture: str, sections: dict) -
 
     # 经文处理（转义反引号）
     scripture_escaped = scripture.replace("`", "\\`")
-    background_escaped = sections.get("背景", "").replace("`", "\\`").replace("**", "").replace("*", "")
-    parallel_escaped = sections.get("平行参考", "").replace("`", "\\`").replace("**", "").replace("*", "")
+    background_escaped = background.replace("`", "\\`").replace("**", "").replace("*", "")
+    parallel_escaped = parallel.replace("`", "\\`").replace("**", "").replace("*", "")
 
     return f"""---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
 const chapter = {chapter};
 const title = "{title}";
-const videoSrc = ""; // NotebookLM 视频下载后放到 public/video/，如 "/video/luke-{chapter}.mp4"
+const videoSrc = "";
 
 const scripture = `{scripture_escaped}`;
 const background = `{background_escaped}`;
@@ -274,94 +275,116 @@ const questions = [
   {q_array}
 ];
 ---
-<BaseLayout title={{`第 ${{chapter}} 章：${{title}} · 路加福音陪读`}}>
+<BaseLayout title={{`第 ${{chapter}} 章：${{title}} · 路加福音陪读`}} wide={{true}}>
   <style>
-    .toc {{ position:fixed;top:50%;left:max(1rem,calc(50% - 360px - 148px));transform:translateY(-50%);display:flex;flex-direction:column;gap:.35rem;width:120px;z-index:100; }}
-    .toc a {{ display:block;padding:.45rem .7rem;font-size:.8rem;color:var(--color-text-muted);text-decoration:none;border-left:2px solid var(--color-border);border-radius:0 6px 6px 0;line-height:1.4;transition:color .15s,border-color .15s,background .15s; }}
-    .toc a:hover,.toc a.active {{ color:var(--color-accent-dark);border-color:var(--color-accent);background:var(--color-accent-light);font-weight:600; }}
-    @media (max-width:1000px) {{ .toc {{ display:none; }} }}
-    .nav-back {{ display:inline-flex;align-items:center;gap:.4rem;color:var(--color-accent-dark);text-decoration:none;font-size:.85rem;margin-bottom:1.5rem; }}
-    .nav-back:hover {{ text-decoration:underline; }}
-    .chapter-label {{ font-size:.85rem;color:var(--color-text-muted);margin-bottom:.3rem; }}
-    .chapter-title {{ font-family:var(--font-serif);font-size:1.5rem;line-height:1.4;margin-bottom:2rem; }}
-    .video-section {{ background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;padding:1.2rem 1.3rem;margin-bottom:2rem; }}
+    .painting-hero {{
+      position: sticky;
+      top: 68px;
+      z-index: 0;
+      height: 300px;
+      margin-left: -0.5rem;
+      margin-right: -0.5rem;
+      background-image:
+        linear-gradient(to bottom, rgba(30,15,5,.15) 0%, rgba(20,10,3,.65) 100%),
+        url('{painting_url}');
+      background-size: cover;
+      background-position: center 40%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 1rem 1.5rem;
+    }}
+    .painting-nav {{ display:inline-flex;align-items:center;gap:.4rem;color:rgba(255,255,255,.85);text-decoration:none;font-size:.85rem; }}
+    .painting-nav:hover {{ color:#fff; }}
+    .painting-chapter-label {{ font-size:.82rem;color:rgba(255,255,255,.7);margin-bottom:.25rem; }}
+    .painting-title {{ font-family:var(--font-serif);font-size:clamp(1.2rem,3vw,1.8rem);color:#fff;line-height:1.35;text-shadow:0 1px 4px rgba(0,0,0,.5); }}
+    .painting-credit {{ font-size:.72rem;color:rgba(255,255,255,.5);text-align:right; }}
+    .page-body {{ position: relative; z-index: 2; background: var(--color-bg); padding-top: 1.8rem; }}
+    .two-col {{ display: grid; grid-template-columns: 2fr 3fr; gap: 1.5rem; align-items: start; }}
+    @media (max-width: 960px) {{
+      .two-col {{ grid-template-columns: 1fr; }}
+      .scripture-col {{ position: static !important; max-height: none !important; overflow-y: visible !important; border-right: none !important; border-bottom: 1px solid var(--color-border); padding-right: 0 !important; padding-bottom: 1.5rem; margin-bottom: .5rem; }}
+    }}
+    .scripture-col {{ position: sticky; top: calc(68px + 300px + 1.8rem); max-height: calc(100vh - 68px - 1.8rem); overflow-y: auto; padding-right: 1.2rem; border-right: 1px solid var(--color-border); scrollbar-width: thin; scrollbar-color: var(--color-border) transparent; }}
+    .scripture-col h2 {{ font-family:var(--font-serif);font-size:.95rem;color:var(--color-text-muted);margin-bottom:.8rem;padding-bottom:.4rem;border-bottom:1px solid var(--color-border); }}
+    .scripture-text {{ font-family: var(--font-serif); font-size: clamp(.88rem, 1.3vw, 1.05rem); line-height: 2.2; white-space: pre-wrap; color: var(--color-text); overflow-wrap: break-word; }}
+    .content-col {{ min-width: 0; }}
+    .video-section {{ background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;padding:1.2rem 1.3rem;margin-bottom:1.8rem; }}
     .video-section h2 {{ font-family:var(--font-serif);font-size:1rem;margin-bottom:.8rem;color:var(--color-accent-dark); }}
     .video-placeholder {{ background:var(--color-accent-light);border-radius:8px;padding:1.2rem;text-align:center;color:var(--color-text-muted);font-size:.9rem;line-height:2; }}
-    video {{ width:100%;border-radius:8px;max-height:400px;background:#000; }}
-    .tts-bar {{ display:flex;align-items:center;gap:.6rem;margin-top:.8rem; }}
-    .tts-btn {{ display:inline-flex;align-items:center;gap:.35rem;padding:.4rem .9rem;background:var(--color-accent-light);color:var(--color-accent-dark);border:1px solid var(--color-border);border-radius:99px;font-size:.82rem;cursor:pointer;font-family:var(--font-sans); }}
-    .tts-btn:hover,.tts-btn.playing {{ background:var(--color-accent);color:white;border-color:var(--color-accent); }}
-    .tts-hint {{ font-size:.78rem;color:var(--color-text-muted); }}
-    .content-block {{ margin-bottom:2rem; }}
+    video {{ width:100%;border-radius:8px;max-height:360px;background:#000; }}
+    .content-block {{ margin-bottom:1.8rem; }}
     .content-block h2 {{ font-family:var(--font-serif);font-size:1rem;color:var(--color-text-muted);margin-bottom:.8rem;padding-bottom:.4rem;border-bottom:1px solid var(--color-border); }}
-    .scripture-text {{ font-family:var(--font-serif);font-size:.95rem;line-height:2.2;white-space:pre-wrap;color:var(--color-text); }}
-    .prose {{ font-size:.9rem;line-height:1.9; }}
+    .prose {{ font-size:clamp(.88rem,1.2vw,1rem);line-height:1.95;overflow-wrap:break-word; }}
     .questions-list {{ display:grid;gap:1.2rem; }}
     .question-card {{ background:var(--color-surface);border:1px solid var(--color-border);border-left:3px solid var(--color-accent);border-radius:0 8px 8px 0;padding:.9rem 1rem; }}
     .question-num {{ font-size:.75rem;color:var(--color-accent);font-weight:700;margin-bottom:.3rem; }}
-    .question-text {{ font-family:var(--font-serif);font-size:.95rem;line-height:1.8;margin-bottom:.75rem; }}
+    .question-text {{ font-family:var(--font-serif);font-size:clamp(.9rem,1.3vw,1.05rem);line-height:1.85;margin-bottom:.75rem;overflow-wrap:break-word; }}
     .answer-label {{ font-size:.78rem;color:var(--color-text-muted);margin-bottom:.3rem; }}
-    .answer-box {{ width:100%;box-sizing:border-box;min-height:80px;padding:.6rem .75rem;font-family:var(--font-sans);font-size:.88rem;line-height:1.7;color:var(--color-text);background:var(--color-bg);border:1px solid var(--color-border);border-radius:6px;resize:vertical;outline:none;transition:border-color .15s; }}
+    .answer-box {{ width:100%;box-sizing:border-box;min-height:80px;padding:.6rem .75rem;font-family:var(--font-sans);font-size:clamp(.85rem,1.1vw,.95rem);line-height:1.7;color:var(--color-text);background:var(--color-bg);border:1px solid var(--color-border);border-radius:6px;resize:vertical;outline:none;transition:border-color .15s; }}
     .answer-box:focus {{ border-color:var(--color-accent); }}
-    .save-hint {{ font-size:.75rem;color:var(--color-text-muted);margin-top:.3rem;min-height:1.2em;transition:opacity .3s; }}
+    .save-hint {{ font-size:.75rem;color:var(--color-text-muted);margin-top:.3rem;min-height:1.2em; }}
     .save-hint.saved {{ color:#6a9e6a; }}
-    .chapter-nav {{ display:flex;justify-content:space-between;margin-top:3rem;padding-top:1.5rem;border-top:1px solid var(--color-border); }}
+    .chapter-nav {{ display:flex;justify-content:space-between;margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid var(--color-border); }}
     .nav-btn {{ display:inline-flex;align-items:center;gap:.4rem;padding:.6rem 1.2rem;background:var(--color-accent-light);color:var(--color-accent-dark);border-radius:8px;text-decoration:none;font-size:.9rem;transition:background .15s; }}
     .nav-btn:hover {{ background:var(--color-accent);color:white; }}
   </style>
 
-  <nav class="toc" aria-label="页面目录">
-    <a href="#video">🎬 视频</a>
-    <a href="#scripture">📖 经文</a>
-    <a href="#background">🌍 背景</a>
-    <a href="#parallel">📚 参考</a>
-    <a href="#questions">💭 思考</a>
-  </nav>
-
-  <a href="/" class="nav-back">← 返回章节目录</a>
-  <div class="chapter-label">路加福音 · 第 {{chapter}} 章</div>
-  <h1 class="chapter-title">{{title}}</h1>
-
-  <div id="video" class="video-section">
-    <h2>🎬 本章视频讲解（约10分钟）</h2>
-    {{videoSrc ? (
-      <><video controls src={{videoSrc}} preload="metadata"></video><p style="font-size:.85rem;color:var(--color-text-muted);margin-top:.6rem">建议先看视频，再读经文和思考问题</p></>
-    ) : (
-      <div class="video-placeholder">视频整理中，即将上线……<br/><small>可先阅读下方经文和背景资料</small></div>
-    )}}
-  </div>
-
-  <div id="scripture" class="content-block">
-    <h2>📖 本章经文（和合本）</h2>
-    <p class="scripture-text" id="scripture-text">{{scripture}}</p>
-    <div class="tts-bar">
-      <button class="tts-btn" id="tts-btn" onclick="toggleRead()">🔊 朗读经文</button>
-      <span class="tts-hint">点击朗读，再次点击停止</span>
+  <div class="painting-hero">
+    <a href="/" class="painting-nav">← 返回章节目录</a>
+    <div class="painting-meta">
+      <div class="painting-chapter-label">路加福音 · 第 {{chapter}} 章</div>
+      <h1 class="painting-title">{{title}}</h1>
     </div>
+    <div class="painting-credit">{painting_credit}</div>
   </div>
 
-  <div id="background" class="content-block">
-    <h2>🌍 背景资料</h2>
-    <p class="prose">{{background}}</p>
-  </div>
+  <div class="page-body">
+  <div class="two-col">
+    <aside class="scripture-col">
+      <h2>📖 本章经文（和合本）</h2>
+      <p class="scripture-text">{{scripture}}</p>
+    </aside>
 
-  <div id="parallel" class="content-block">
-    <h2>📚 平行参考</h2>
-    <p class="prose">{{parallel}}</p>
-  </div>
+    <div class="content-col">
+      <div class="video-section">
+        <h2>🎬 本章视频讲解（约10分钟）</h2>
+        {{videoSrc ? (
+          <><video controls src={{videoSrc}} preload="metadata"></video><p style="font-size:.85rem;color:var(--color-text-muted);margin-top:.6rem">建议先看视频，再读经文和思考问题</p></>
+        ) : (
+          <div class="video-placeholder">视频整理中，即将上线……<br/><small>可先阅读左侧经文和背景资料</small></div>
+        )}}
+      </div>
 
-  <div id="questions" class="content-block">
-    <h2>💭 思考与交流</h2>
-    <div class="questions-list">
-      {{questions.map((item, i) => (
-        <div class="question-card">
-          <div class="question-num">问题 {{i + 1}}</div>
-          <div class="question-text">{{item.q}}</div>
-          <div class="answer-label">您的想法：</div>
-          <textarea class="answer-box" data-key={{`luke-{chapter}-q-${{i}}`}} placeholder="在这里写下您的想法……" oninput="saveAnswer(this)"></textarea>
-          <div class="save-hint" id={{`hint-${{i}}`}}></div>
+      <div class="content-block">
+        <h2>🌍 背景资料</h2>
+        <p class="prose">{{background}}</p>
+      </div>
+
+      <div class="content-block">
+        <h2>📚 平行参考</h2>
+        <p class="prose">{{parallel}}</p>
+      </div>
+
+      <div class="content-block">
+        <h2>💭 思考与交流</h2>
+        <div class="questions-list">
+          {{questions.map((item, i) => (
+            <div class="question-card">
+              <div class="question-num">问题 {{i + 1}}</div>
+              <div class="question-text">{{item.q}}</div>
+              <div class="answer-label">您的想法：</div>
+              <textarea
+                class="answer-box"
+                data-key={{`luke-{chapter}-q-${{i}}`}}
+                placeholder="在这里写下您的想法……"
+                oninput="saveAnswer(this)"
+              ></textarea>
+              <div class="save-hint" id={{`hint-${{i}}`}}></div>
+            </div>
+          ))}}
         </div>
-      ))}}
+      </div>
     </div>
   </div>
 
@@ -369,31 +392,31 @@ const questions = [
     {prev_link}
     {next_link}
   </div>
+  </div>
 
   <script>
-    let utterance = null;
-    function toggleRead() {{
-      const btn = document.getElementById('tts-btn');
-      const text = document.getElementById('scripture-text')?.textContent || '';
-      if (window.speechSynthesis.speaking) {{
-        window.speechSynthesis.cancel();
-        btn.textContent = '🔊 朗读经文';
-        btn.classList.remove('playing');
-        return;
-      }}
-      utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'zh-CN';
-      utterance.rate = 0.85;
-      utterance.onend = () => {{ btn.textContent = '🔊 朗读经文'; btn.classList.remove('playing'); }};
-      window.speechSynthesis.speak(utterance);
-      btn.textContent = '⏹ 停止朗读';
-      btn.classList.add('playing');
-    }}
-    window.toggleRead = toggleRead;
+    import {{ syncFromCloud, saveToCloud }} from '../../lib/supabase.js';
 
-    document.querySelectorAll('.answer-box').forEach((el) => {{
-      const saved = localStorage.getItem(el.dataset.key);
-      if (saved) {{ el.value = saved; el.style.height = el.scrollHeight + 'px'; }}
+    const CHAPTER = {chapter};
+    const keys = [0, 1, 2].map(i => `luke-${{CHAPTER}}-q-${{i}}`);
+
+    function restoreFromLocal() {{
+      document.querySelectorAll('.answer-box').forEach((el) => {{
+        const key = el.dataset.key;
+        if (key) {{
+          const saved = localStorage.getItem(key);
+          if (saved) {{ el.value = saved; el.style.height = el.scrollHeight + 'px'; }}
+        }}
+      }});
+    }}
+    restoreFromLocal();
+
+    syncFromCloud(CHAPTER, keys).then(() => {{
+      document.querySelectorAll('.answer-box').forEach((el) => {{
+        if (el.value) return;
+        const saved = localStorage.getItem(el.dataset.key);
+        if (saved) {{ el.value = saved; el.style.height = el.scrollHeight + 'px'; }}
+      }});
     }});
 
     let saveTimers = {{}};
@@ -401,23 +424,21 @@ const questions = [
       el.style.height = 'auto';
       el.style.height = el.scrollHeight + 'px';
       const key = el.dataset.key;
+      if (!key) return;
       clearTimeout(saveTimers[key]);
       saveTimers[key] = setTimeout(() => {{
         localStorage.setItem(key, el.value);
-        const idx = key.split('-').pop();
+        const idx = Number(key.split('-').pop());
         const hint = document.getElementById('hint-' + idx);
-        if (hint) {{ hint.textContent = '✓ 已保存'; hint.classList.add('saved'); setTimeout(() => {{ hint.textContent = ''; hint.classList.remove('saved'); }}, 2000); }}
+        if (hint) {{
+          hint.textContent = '✓ 已保存';
+          hint.classList.add('saved');
+          setTimeout(() => {{ hint.textContent = ''; hint.classList.remove('saved'); }}, 2000);
+        }}
+        saveToCloud(CHAPTER, idx, el.value);
       }}, 600);
     }}
     window.saveAnswer = saveAnswer;
-
-    const sections = ['video','scripture','background','parallel','questions'];
-    const tocLinks = {{}};
-    sections.forEach(id => {{ const a = document.querySelector(`.toc a[href="#${{id}}"]`); if (a) tocLinks[id] = a; }});
-    const obs = new IntersectionObserver((entries) => {{
-      entries.forEach(e => {{ if (e.isIntersecting) {{ Object.values(tocLinks).forEach(a => a.classList.remove('active')); if (tocLinks[e.target.id]) tocLinks[e.target.id].classList.add('active'); }} }});
-    }}, {{ rootMargin: '-20% 0px -60% 0px' }});
-    sections.forEach(id => {{ const el = document.getElementById(id); if (el) obs.observe(el); }});
   </script>
 </BaseLayout>
 """
@@ -450,6 +471,18 @@ CHAPTER_TITLES = {
     22: "最后的晚餐与被捕",
     23: "受审与十字架",
     24: "复活与升天",
+}
+
+# 每章配套油画（Wikimedia Commons，公有领域）
+CHAPTER_PAINTINGS = {
+    1: (
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Annunciation_%28Leonardo_c._1472%E2%80%931476%29.jpg/1280px-Annunciation_%28Leonardo_c._1472%E2%80%931476%29.jpg",
+        "达·芬奇《天使报信》，约1472年，乌菲兹美术馆藏",
+    ),
+    2: (
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Correggio_-_The_Holy_Night_-_Google_Art_Project.jpg/1280px-Correggio_-_The_Holy_Night_-_Google_Art_Project.jpg",
+        "柯雷乔《圣夜》，约1528年，德累斯顿老大师画廊藏",
+    ),
 }
 
 
@@ -492,7 +525,8 @@ def main():
     astro_dir = Path("site/src/pages/luke")
     astro_dir.mkdir(parents=True, exist_ok=True)
     astro_path = astro_dir / f"{chapter}.astro"
-    astro_content = build_astro_page(chapter, title, scripture, sections)
+    painting_url, painting_credit = CHAPTER_PAINTINGS.get(chapter, ("", ""))
+    astro_content = build_astro_page(chapter, title, scripture, sections, painting_url, painting_credit)
     astro_path.write_text(astro_content, encoding="utf-8")
     print(f"  ✅ 网站页面：{astro_path}")
 
