@@ -1,7 +1,9 @@
 .env
+.DS_Store
 node_modules/
 site/.astro/
 site/dist/
+site/public/video/*.mp4
 chapters/*.md
 __pycache__/
 *.pyc
