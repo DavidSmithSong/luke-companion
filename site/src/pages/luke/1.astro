@@ -270,12 +270,30 @@ const questions = [
   </div> <!-- end .page-body -->
 
   <script>
-    document.querySelectorAll('.answer-box').forEach((el) => {
-      const key = el.dataset.key;
-      if (key) {
-        const saved = localStorage.getItem(key);
+    import { syncFromCloud, saveToCloud } from '../../lib/supabase.js';
+
+    const CHAPTER = 1;
+    const keys = [0, 1, 2].map(i => `luke-${CHAPTER}-q-${i}`);
+
+    // 从 localStorage 恢复
+    function restoreFromLocal() {
+      document.querySelectorAll('.answer-box').forEach((el) => {
+        const key = el.dataset.key;
+        if (key) {
+          const saved = localStorage.getItem(key);
+          if (saved) { el.value = saved; el.style.height = el.scrollHeight + 'px'; }
+        }
+      });
+    }
+    restoreFromLocal();
+
+    // 从云端同步（只填空白项）
+    syncFromCloud(CHAPTER, keys).then(() => {
+      document.querySelectorAll('.answer-box').forEach((el) => {
+        if (el.value) return;
+        const saved = localStorage.getItem(el.dataset.key);
         if (saved) { el.value = saved; el.style.height = el.scrollHeight + 'px'; }
-      }
+      });
     });
 
     let saveTimers = {};
@@ -287,13 +305,14 @@ const questions = [
       clearTimeout(saveTimers[key]);
       saveTimers[key] = setTimeout(() => {
         localStorage.setItem(key, el.value);
-        const idx = key.split('-').pop();
+        const idx = Number(key.split('-').pop());
         const hint = document.getElementById('hint-' + idx);
         if (hint) {
           hint.textContent = '✓ 已保存';
           hint.classList.add('saved');
           setTimeout(() => { hint.textContent = ''; hint.classList.remove('saved'); }, 2000);
         }
+        saveToCloud(CHAPTER, idx, el.value);
       }, 600);
     }
     window.saveAnswer = saveAnswer;

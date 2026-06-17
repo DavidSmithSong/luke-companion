@@ -1,0 +1,273 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const chapter = 2;
+const title = "耶稣的降生";
+const videoSrc = "/video/luke-2.mp4";
+
+const scripture = `[2:1] 当那些日子，恺撒奥古斯都有旨意下来，叫天下人民都报名上册。
+[2:2] 这是居里扭做叙利亚巡抚的时候，头一次行报名上册的事。
+[2:3] 众人各归各城，报名上册。
+[2:4] 约瑟也从加利利的拿撒勒城上犹太去，到了大卫的城，名叫伯利恒，因他本是大卫一族一家的人，
+[2:5] 要和他所聘之妻马利亚一同报名上册。那时马利亚的身孕已经重了。
+[2:6] 他们在那里的时候，马利亚的产期到了，
+[2:7] 就生了头胎的儿子，用布包起来，放在马槽里，因为客店里没有地方。
+[2:8] 在伯利恒之野地里有牧羊的人，夜间按着更次看守羊群。
+[2:9] 有主的使者站在他们旁边，主的荣光四面照着他们，牧羊的人就甚惧怕。
+[2:10] 那天使对他们说："不要惧怕，我报给你们大喜的信息，是关乎万民的。
+[2:11] 因今天在大卫的城里，为你们生了救主，就是主基督。
+[2:12] 你们要看见一个婴孩，包着布，卧在马槽里，那就是记号了。"
+[2:13] 忽然有一大队天兵，同那天使赞美神说：
+[2:14] "在至高之处荣耀归于神！在地上平安归于他所喜悦的人！"
+[2:15] 众天使离开他们升天去了，牧羊的人彼此说："我们往伯利恒去，看看所成的事，就是主所指示我们的。"
+[2:16] 他们急忙去了，就寻见马利亚和约瑟，又有那婴孩卧在马槽里。
+[2:17] 既然看见，就把天使论这孩子的话传开了。
+[2:18] 凡听见的，就诧异牧羊之人对他们所说的话。
+[2:19] 马利亚却把这一切的事存在心里，反复思想。
+[2:20] 牧羊的人回去了，因所听见、所看见的一切事正如天使向他们所说的，就归荣耀于神，赞美他。
+[2:21] 满了八天，就给孩子行割礼，与他起名叫耶稣，这就是没有成胎以前天使所起的名。
+[2:22] 按摩西律法满了洁净的日子，他们带着孩子上耶路撒冷去，要把他献于主，
+[2:23] 正如主的律法上所记："凡头生的男子，必称圣归主。"
+[2:24] 又要照主的律法上所说，"或用一对斑鸠，或用两只雏鸽"献祭。
+[2:25] 在耶路撒冷有一个人名叫西面，这人又公义又虔诚，素常盼望以色列的安慰者来到，又有圣灵在他身上。
+[2:26] 他得了圣灵的启示，知道自己未死以前，必看见主所立的基督。
+[2:27] 他受了圣灵的感动，进入圣殿，正遇见耶稣的父母抱着孩子进来，要照律法的规矩办理。
+[2:28] 西面就用手接过他来，称颂神，说：
+[2:29] "主啊，如今可以照你的话，释放仆人安然去世！
+[2:30] 因为我的眼睛已经看见你的救恩，
+[2:31] 就是你在万民面前所预备的，
+[2:32] 是照亮外邦人的光，又是你民以色列的荣耀。"
+[2:33] 孩子的父母因这论耶稣的话就稀奇。
+[2:34] 西面给他们祝福，又对孩子的母亲马利亚说："这孩子被立，是要叫以色列中许多人跌倒、许多人兴起，又要做毁谤的话柄，
+[2:35] 叫许多人心里的意念显露出来。你自己的心也要被刀刺透。"
+[2:36] 又有女先知名叫亚拿，是亚设支派法内力的女儿，年纪已经老迈，从做童女出嫁的时候，同丈夫住了七年就寡居了，
+[2:37] 现在已经八十四岁，并不离开圣殿，禁食、祈求，昼夜侍奉神。
+[2:38] 正当那时，她进前来称谢神，将孩子的事对一切盼望耶路撒冷得救赎的人讲说。
+[2:39] 约瑟和马利亚照主的律法办完了一切的事，就回加利利，到自己的城拿撒勒去了。
+[2:40] 孩子渐渐长大，强健起来，充满智慧，又有神的恩在他身上。
+[2:41] 每年到逾越节，他父母就上耶路撒冷去。
+[2:42] 当他十二岁的时候，他们按着节期的规矩上去。
+[2:43] 守满了节期，他们回去，孩童耶稣仍旧在耶路撒冷，他的父母并不知道，
+[2:44] 以为他在同行的人中间。走了一天的路程，就在亲族和熟识的人中找他，
+[2:45] 既找不着，就回耶路撒冷去找他。
+[2:46] 过了三天，就遇见他在殿里，坐在教师中间，一面听一面问。
+[2:47] 凡听见他的，都稀奇他的聪明和他的应对。
+[2:48] 他父母看见就很稀奇。他母亲对他说："我儿，为什么向我们这样行呢？看哪，你父亲和我伤心来找你！"
+[2:49] 耶稣说："为什么找我呢？岂不知我应当以我父的事为念吗？"
+[2:50] 他所说的这话，他们不明白。
+[2:51] 他就同他们下去，回到拿撒勒，并且顺从他们。他母亲把这一切的事都存在心里。
+[2:52] 耶稣的智慧和身量，并神和人喜爱他的心，都一齐增长。`;
+const background = `那个时候，罗马皇帝下令进行全国人口登记，每个人都要回祖籍地报名。约瑟带着身怀六甲的马利亚，从加利利赶往伯利恒。到了之后，客店里没有空位，孩子只能在马槽旁出生。满月之后，他们按照律法规定，带着孩子去耶路撒冷圣殿，在那里遇到了两位等了一辈子的老人——西面和亚拿。耶稣十二岁时，又在圣殿里与学者们对谈，令所有人惊叹。`;
+const parallel = `耶稣降生的故事，马太福音第1、2章也有记载，但侧重点各有不同。马太记录的是东方博士前来朝拜、一家逃往埃及，而路加记录的是牧羊人听到天使报喜、圣殿里老人西面的感恩、以及耶稣十二岁留殿的故事。这些细节只在路加福音中出现，展现了上帝的到来如何深深触动每一个等候的普通人。`;
+const questions = [
+  { q: `耶稣出生在马槽里，最先听到这消息的是荒野中熬夜看守的牧羊人。您觉得，上帝为什么选择这样的方式来到世间？这对您有什么感触？` },
+  { q: `西面和亚拿两位老人，一辈子都在等待和盼望，终于在暮年等到了心愿。您这一生中，有没有经历过漫长的等待，最终得到盼望的时刻？` },
+  { q: `马利亚把孩子身上发生的种种奇事，都"存在心里，反复思想"。作为父母，您是否也曾把儿女成长中那些难忘的瞬间，当作宝贝一样藏在心里？` }
+];
+---
+<BaseLayout title={`第 ${chapter} 章：${title} · 路加福音陪读`} wide={true}>
+  <style>
+    .painting-hero {
+      position: sticky;
+      top: 68px;
+      z-index: 0;
+      height: 300px;
+      margin-left: -0.5rem;
+      margin-right: -0.5rem;
+      background-image:
+        linear-gradient(to bottom, rgba(30,15,5,.15) 0%, rgba(20,10,3,.65) 100%),
+        url('https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Correggio_-_The_Holy_Night_-_Google_Art_Project.jpg/1280px-Correggio_-_The_Holy_Night_-_Google_Art_Project.jpg');
+      background-size: cover;
+      background-position: center 35%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 1rem 1.5rem;
+    }
+    .painting-nav { display:inline-flex;align-items:center;gap:.4rem;color:rgba(255,255,255,.85);text-decoration:none;font-size:.85rem; }
+    .painting-nav:hover { color:#fff; }
+    .painting-meta { }
+    .painting-chapter-label { font-size:.82rem;color:rgba(255,255,255,.7);margin-bottom:.25rem; }
+    .painting-title { font-family:var(--font-serif);font-size:clamp(1.2rem,3vw,1.8rem);color:#fff;line-height:1.35;text-shadow:0 1px 4px rgba(0,0,0,.5); }
+    .painting-credit { font-size:.72rem;color:rgba(255,255,255,.5);text-align:right; }
+
+    .page-body {
+      position: relative;
+      z-index: 2;
+      background: var(--color-bg);
+      padding-top: 1.8rem;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 2fr 3fr;
+      gap: 1.5rem;
+      align-items: start;
+    }
+    @media (max-width: 960px) {
+      .two-col { grid-template-columns: 1fr; }
+      .scripture-col {
+        position: static !important;
+        max-height: none !important;
+        overflow-y: visible !important;
+        border-right: none !important;
+        border-bottom: 1px solid var(--color-border);
+        padding-right: 0 !important;
+        padding-bottom: 1.5rem;
+        margin-bottom: .5rem;
+      }
+    }
+
+    .scripture-col {
+      position: sticky;
+      top: calc(68px + 300px + 1.8rem);
+      max-height: calc(100vh - 68px - 1.8rem);
+      overflow-y: auto;
+      padding-right: 1.2rem;
+      border-right: 1px solid var(--color-border);
+      scrollbar-width: thin;
+      scrollbar-color: var(--color-border) transparent;
+    }
+    .scripture-col h2 { font-family:var(--font-serif);font-size:.95rem;color:var(--color-text-muted);margin-bottom:.8rem;padding-bottom:.4rem;border-bottom:1px solid var(--color-border); }
+    .scripture-text {
+      font-family: var(--font-serif);
+      font-size: clamp(.88rem, 1.3vw, 1.05rem);
+      line-height: 2.2;
+      white-space: pre-wrap;
+      color: var(--color-text);
+      overflow-wrap: break-word;
+    }
+
+    .content-col { min-width: 0; }
+    .video-section { background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;padding:1.2rem 1.3rem;margin-bottom:1.8rem; }
+    .video-section h2 { font-family:var(--font-serif);font-size:1rem;margin-bottom:.8rem;color:var(--color-accent-dark); }
+    .video-placeholder { background:var(--color-accent-light);border-radius:8px;padding:1.2rem;text-align:center;color:var(--color-text-muted);font-size:.9rem;line-height:2; }
+    video { width:100%;border-radius:8px;max-height:360px;background:#000; }
+    .content-block { margin-bottom:1.8rem; }
+    .content-block h2 { font-family:var(--font-serif);font-size:1rem;color:var(--color-text-muted);margin-bottom:.8rem;padding-bottom:.4rem;border-bottom:1px solid var(--color-border); }
+    .prose { font-size:clamp(.88rem,1.2vw,1rem);line-height:1.95;overflow-wrap:break-word; }
+    .questions-list { display:grid;gap:1.2rem; }
+    .question-card { background:var(--color-surface);border:1px solid var(--color-border);border-left:3px solid var(--color-accent);border-radius:0 8px 8px 0;padding:.9rem 1rem; }
+    .question-num { font-size:.75rem;color:var(--color-accent);font-weight:700;margin-bottom:.3rem; }
+    .question-text { font-family:var(--font-serif);font-size:clamp(.9rem,1.3vw,1.05rem);line-height:1.85;margin-bottom:.75rem;overflow-wrap:break-word; }
+    .answer-label { font-size:.78rem;color:var(--color-text-muted);margin-bottom:.3rem; }
+    .answer-box { width:100%;box-sizing:border-box;min-height:80px;padding:.6rem .75rem;font-family:var(--font-sans);font-size:clamp(.85rem,1.1vw,.95rem);line-height:1.7;color:var(--color-text);background:var(--color-bg);border:1px solid var(--color-border);border-radius:6px;resize:vertical;outline:none;transition:border-color .15s; }
+    .answer-box:focus { border-color:var(--color-accent); }
+    .save-hint { font-size:.75rem;color:var(--color-text-muted);margin-top:.3rem;min-height:1.2em; }
+    .save-hint.saved { color:#6a9e6a; }
+    .chapter-nav { display:flex;justify-content:space-between;margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid var(--color-border); }
+    .nav-btn { display:inline-flex;align-items:center;gap:.4rem;padding:.6rem 1.2rem;background:var(--color-accent-light);color:var(--color-accent-dark);border-radius:8px;text-decoration:none;font-size:.9rem;transition:background .15s; }
+    .nav-btn:hover { background:var(--color-accent);color:white; }
+  </style>
+
+  <div class="painting-hero">
+    <a href="/" class="painting-nav">← 返回章节目录</a>
+    <div class="painting-meta">
+      <div class="painting-chapter-label">路加福音 · 第 {chapter} 章</div>
+      <h1 class="painting-title">{title}</h1>
+    </div>
+    <div class="painting-credit">柯雷乔《圣夜》，约1528年，德累斯顿老大师画廊藏</div>
+  </div>
+
+  <div class="page-body">
+  <div class="two-col">
+    <aside class="scripture-col">
+      <h2>📖 本章经文（和合本）</h2>
+      <p class="scripture-text">{scripture}</p>
+    </aside>
+
+    <div class="content-col">
+      <div class="video-section">
+        <h2>🎬 本章视频讲解（约10分钟）</h2>
+        {videoSrc ? (
+          <><video controls src={videoSrc} preload="metadata"></video><p style="font-size:.85rem;color:var(--color-text-muted);margin-top:.6rem">建议先看视频，再读经文和思考问题</p></>
+        ) : (
+          <div class="video-placeholder">视频整理中，即将上线……<br/><small>可先阅读左侧经文和背景资料</small></div>
+        )}
+      </div>
+
+      <div class="content-block">
+        <h2>🌍 背景资料</h2>
+        <p class="prose">{background}</p>
+      </div>
+
+      <div class="content-block">
+        <h2>📚 平行参考</h2>
+        <p class="prose">{parallel}</p>
+      </div>
+
+      <div class="content-block">
+        <h2>💭 思考与交流</h2>
+        <div class="questions-list">
+          {questions.map((item, i) => (
+            <div class="question-card">
+              <div class="question-num">问题 {i + 1}</div>
+              <div class="question-text">{item.q}</div>
+              <div class="answer-label">您的想法：</div>
+              <textarea
+                class="answer-box"
+                data-key={`luke-${chapter}-q-${i}`}
+                placeholder="在这里写下您的想法……"
+                oninput="saveAnswer(this)"
+              ></textarea>
+              <div class="save-hint" id={`hint-${i}`}></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="chapter-nav">
+    <a href="/luke/1" class="nav-btn">← 第 1 章</a>
+    <a href="/luke/3" class="nav-btn">第 3 章 →</a>
+  </div>
+  </div>
+
+  <script>
+    import { syncFromCloud, saveToCloud } from '../../lib/supabase.js';
+
+    const CHAPTER = 2;
+    const keys = [0, 1, 2].map(i => `luke-${CHAPTER}-q-${i}`);
+
+    function restoreFromLocal() {
+      document.querySelectorAll('.answer-box').forEach((el) => {
+        const key = el.dataset.key;
+        if (key) {
+          const saved = localStorage.getItem(key);
+          if (saved) { el.value = saved; el.style.height = el.scrollHeight + 'px'; }
+        }
+      });
+    }
+    restoreFromLocal();
+
+    syncFromCloud(CHAPTER, keys).then(() => {
+      document.querySelectorAll('.answer-box').forEach((el) => {
+        if (el.value) return;
+        const saved = localStorage.getItem(el.dataset.key);
+        if (saved) { el.value = saved; el.style.height = el.scrollHeight + 'px'; }
+      });
+    });
+
+    let saveTimers = {};
+    function saveAnswer(el) {
+      el.style.height = 'auto';
+      el.style.height = el.scrollHeight + 'px';
+      const key = el.dataset.key;
+      if (!key) return;
+      clearTimeout(saveTimers[key]);
+      saveTimers[key] = setTimeout(() => {
+        localStorage.setItem(key, el.value);
+        const idx = Number(key.split('-').pop());
+        const hint = document.getElementById('hint-' + idx);
+        if (hint) {
+          hint.textContent = '✓ 已保存';
+          hint.classList.add('saved');
+          setTimeout(() => { hint.textContent = ''; hint.classList.remove('saved'); }, 2000);
+        }
+        saveToCloud(CHAPTER, idx, el.value);
+      }, 600);
+    }
+    window.saveAnswer = saveAnswer;
+  </script>
+</BaseLayout>
