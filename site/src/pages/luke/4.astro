@@ -1,0 +1,233 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const chapter = 4;
+const title = "旷野受试探与拿撒勒讲道";
+const videoSrc = "";
+
+const scripture = `[4:1] 耶稣被圣灵充满，从约旦河回来，圣灵将他引到旷野，四十天受魔鬼的试探。
+[4:2] 那些日子没有吃什么，日子满了，他就饿了。
+[4:3] 魔鬼对他说：“你若是神的儿子，可以吩咐这块石头变成食物！”
+[4:4] 耶稣回答说：“经上记着说：‘人活着不是单靠食物，乃是靠神口里所出的一切话。’”
+[4:5] 魔鬼又领他上了高山，霎时间把天下的万国都指给他看，
+[4:6] 对他说：“这一切权柄、荣华我都要给你，因为这原是交付我的，我愿意给谁就给谁。
+[4:7] 你若在我面前下拜，这都要归你。”
+[4:8] 耶稣说：“经上记着说：‘当拜主你的神，单要侍奉他。’”
+[4:9] 魔鬼又领他到耶路撒冷去，叫他站在殿顶上，对他说：“你若是神的儿子，可以从这里跳下去！
+[4:10] 因为经上记着说：‘主要为你吩咐他的使者保护你，
+[4:11] 他们要用手托着你，免得你的脚碰在石头上。’”
+[4:12] 耶稣对他说：“经上说：‘不可试探主你的神。’”
+[4:13] 魔鬼用完了各样的试探，就暂时离开耶稣。
+[4:14] 耶稣满有圣灵的能力，回到加利利，他的名声就传遍了四方。
+[4:15] 他在各会堂里教训人，众人都称赞他。
+[4:16] 耶稣来到拿撒勒，就是他长大的地方，在安息日，照他平常的规矩进了会堂，站起来要念圣经。
+[4:17] 有人把先知以赛亚的书交给他，他就打开，找到一处写着说：
+[4:18] “主的灵在我身上，因为他用膏膏我，叫我传福音给贫穷的人，差遣我报告被掳的得释放、瞎眼的得看见，叫那受压制的得自由，
+[4:19] 报告神悦纳人的禧年。”
+[4:20] 于是把书卷起来，交还执事，就坐下。会堂里的人都定睛看他。
+[4:21] 耶稣对他们说：“今天这经应验在你们耳中了。”
+[4:22] 众人都称赞他，并稀奇他口中所出的恩言，又说：“这不是约瑟的儿子吗？”
+[4:23] 耶稣对他们说：“你们必引这俗语向我说：‘医生，你医治自己吧！我们听见你在迦百农所行的事，也当行在你自己家乡里！’”
+[4:24] 又说：“我实在告诉你们：没有先知在自己家乡被人悦纳的。
+[4:25] “我对你们说实话，当以利亚的时候，天闭塞了三年零六个月，遍地有大饥荒，那时以色列中有许多寡妇，
+[4:26] 以利亚并没有奉差往她们一个人那里去，只奉差往西顿的撒勒法一个寡妇那里去。
+[4:27] 先知以利沙的时候，以色列中有许多长大麻风的，但内中除了叙利亚国的乃缦，没有一个得洁净的。”
+[4:28] 会堂里的人听见这话，都怒气满胸，
+[4:29] 就起来撵他出城。他们的城造在山上。他们带他到山崖，要把他推下去。
+[4:30] 他却从他们中间直行，过去了。
+[4:31] 耶稣下到迦百农，就是加利利的一座城，在安息日教训众人。
+[4:32] 他们很稀奇他的教训，因为他的话里有权柄。
+[4:33] 在会堂里有一个人被污鬼的精气附着，大声喊叫说：
+[4:34] “唉！拿撒勒的耶稣，我们与你有什么相干？你来灭我们吗？我知道你是谁，乃是神的圣者！”
+[4:35] 耶稣责备他说：“不要作声！从这人身上出来吧！”鬼把那人摔倒在众人中间，就出来了，却也没有害他。
+[4:36] 众人都惊讶，彼此对问说：“这是什么道理呢？因为他用权柄能力吩咐污鬼，污鬼就出来。”
+[4:37] 于是耶稣的名声传遍了周围地方。
+[4:38] 耶稣出了会堂，进了西门的家。西门的岳母害热病甚重，有人为她求耶稣。
+[4:39] 耶稣站在她旁边，斥责那热病，热就退了。她立刻起来服侍他们。
+[4:40] 日落的时候，凡有病人的，不论害什么病，都带到耶稣那里。耶稣按手在他们各人身上，医好他们。
+[4:41] 又有鬼从好些人身上出来，喊着说：“你是神的儿子！”耶稣斥责他们，不许他们说话，因为他们知道他是基督。
+[4:42] 天亮的时候，耶稣出来，走到旷野地方。众人去找他，到了他那里，要留住他，不要他离开他们。
+[4:43] 但耶稣对他们说：“我也必须在别城传神国的福音，因我奉差原是为此。”
+[4:44] 于是耶稣在加利利的各会堂传道。`;
+const background = `那个时候，耶稣刚刚受洗，圣灵充满在他身上，就如同清澈的泉水注入干涸的心田。圣灵引导他走向一片特别的旷野，那不是我们想象中绿草茵茵的田野，而是犹太旷野，一片真正的荒芜之地。您可以想象一下，那里遍地是光秃秃的石头，黄沙漫漫，偶尔有几株荆棘挣扎着生长。白天烈日炙烤，晚上寒风呼啸，豺狼、毒蛇和蝎子是这里唯一的“居民”。人在那里，不仅仅是饥渴，更是一种被世俗完全隔绝的孤独和绝望。耶稣就在这样的环境中，四十天没有吃任何东西，那是何等煎熬的饥饿和虚弱啊。魔鬼正是在他最脆弱的时候出现，用最直接、最现实的“食物”来引诱他，想要动摇他内心深处的信仰。
+
+讲解完旷野的试探，经文又把我们带到了耶稣长大的家乡——拿撒勒。在那个时代，犹太人有着一个非常重要的习惯，那就是在安息日（相当于我们的星期六），大家都会到会堂里去聚会、敬拜神。会堂不是像寺庙那样只供神职人员活动的场所，它更像是一个社区中心，是大家学习经文、交流感情的地方。当主持聚会的执事把先知以赛亚的书卷递给耶稣时，耶稣打开了那厚厚的羊皮卷，找到了写着“主的灵在我身上，因为他用膏膏我，叫我传福音给贫穷的人……”这样的话语，并且当众念了出来。这是一种非常庄重的仪式，也是向所有人宣告他的使命。
+
+可接下来发生的事情，却出人意料。本来大家对耶稣所说的话语感到稀奇，心里充满了赞叹。但当耶稣提到那些过去时代里，神并没有只帮助以色列人自己的寡妇和麻风病人，反而帮助了异乡的外邦人时，拿撒勒的乡亲们就坐不住了。他们从小听着祖辈的教诲，觉得神的恩典理所当然是给自己的，是给他们这些犹太人的。他们觉得耶稣竟然拿外邦人来和他们比较，甚至暗示外邦人比他们更配得到神的帮助，这简直是冒犯了他们心中最神圣的尊严。这种狭隘的观念，就像一个厚厚的茧子，把他们的心紧紧包裹住。所以，他们心中的赞叹很快就变成了愤怒，甚至不惜将耶稣带到山崖边，想要将他推下去，这份排斥和仇恨，让人感到心惊。`;
+const parallel = `这章经文里，耶稣被魔鬼试探以及在自己家乡拿撒勒被排斥这两件事，在《马太福音》和《马可福音》里也都有记载，但路加福音的讲述却有着自己独特的侧重点，更贴近我们普通人的生活体会。
+
+首先，在耶稣受试探的顺序上，马太福音的记载，把魔鬼引诱耶稣登上高山，指给他看天下万国，并许诺给他权柄和荣华放在了最后。马太福音的读者会感受到，那是在考验耶稣作为一位“君王”的身份，是要他选择是做一位依靠世俗权力、享尽荣华的君王，还是走一条顺服上帝旨意的道路。而路加福音则把魔鬼引诱耶稣站在耶路撒冷圣殿的殿顶上，叫他跳下去，以此来试探他是否真是神的儿子，放在了最后。路加福音更强调的是，耶稣内心对上帝纯粹的信靠与顺服。他拒绝用任何取巧的方式来证明自己，而是选择完全相信并遵从上帝的话语，这是一种更深沉、更内在的信心考验。
+
+其次，关于耶稣在故乡拿撒勒被拒绝的经历，马太和马可福音虽然也提到了，但路加福音把它放在了耶稣公开传道的几乎最开始。这并不是一个偶然的安排。路加福音的作者似乎想从一开始就告诉我们：耶稣的道路，注定不是一条顺风顺水、处处被接纳的道路。他来到世上，就是要寻找那些谦卑的、被边缘化的人，那些在世俗眼中不被看重、甚至被排斥的人。他愿意承担被自己家人、被自己同胞拒绝的忧患和委屈，因为他知道，他的爱是超越一切界限的。通过这样独特的安排，路加福音让我们感受到，耶稣正是那位为了我们这些普通人、为了那些被世人遗忘的人而来的，他理解我们的挣扎和不易，也愿意与我们一同面对生活中的冷遇和误解。`;
+const questions = [
+  { q: `在您年轻时，有没有遇到过那样艰难的时刻，当生活逼迫您做出选择时，是坚守着内心的原则，还是被眼前的小小诱惑牵着走了呢？回想起来，是什么让您做出了那样的决定？` },
+  { q: `当耶稣回到家乡，却不被自己的亲人、邻里理解时，他心里一定不好受。在您的生活中，有没有过真心想为家人或亲近的人好，却反而被他们误解、甚至排斥的经历？您当时是怎样面对这份委屈的？` },
+  { q: `耶稣在被故乡人拒绝后，并没有停下脚步，而是继续去其他地方帮助人、教导人。当您遇到困难或者不顺心的时候，是什么力量支撑着您继续向前，去关心和帮助身边的人呢？有没有哪一次，您帮助别人的经历，也温暖了您自己的心？` }
+];
+---
+<BaseLayout title={`第 ${chapter} 章：${title} · 路加福音陪读`} wide={true}>
+  <style>
+    .painting-hero {
+      position: sticky;
+      top: 68px;
+      z-index: 0;
+      height: 300px;
+      margin-left: -0.5rem;
+      margin-right: -0.5rem;
+      background-image:
+        linear-gradient(to bottom, rgba(30,15,5,.15) 0%, rgba(20,10,3,.65) 100%),
+        url('https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Kramskoy_Christ_in_the_Wilderness.jpg/1280px-Kramskoy_Christ_in_the_Wilderness.jpg');
+      background-size: cover;
+      background-position: center 40%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 1rem 1.5rem;
+    }
+    .painting-nav { display:inline-flex;align-items:center;gap:.4rem;color:rgba(255,255,255,.85);text-decoration:none;font-size:.85rem; }
+    .painting-nav:hover { color:#fff; }
+    .painting-chapter-label { font-size:.82rem;color:rgba(255,255,255,.7);margin-bottom:.25rem; }
+    .painting-title { font-family:var(--font-serif);font-size:clamp(1.2rem,3vw,1.8rem);color:#fff;line-height:1.35;text-shadow:0 1px 4px rgba(0,0,0,.5); }
+    .painting-credit { font-size:.72rem;color:rgba(255,255,255,.5);text-align:right; }
+    .page-body { position: relative; z-index: 2; background: var(--color-bg); padding-top: 1.8rem; }
+    .two-col { display: grid; grid-template-columns: 2fr 3fr; gap: 1.5rem; align-items: start; }
+    @media (max-width: 960px) {
+      .two-col { grid-template-columns: 1fr; }
+      .scripture-col { position: static !important; max-height: none !important; overflow-y: visible !important; border-right: none !important; border-bottom: 1px solid var(--color-border); padding-right: 0 !important; padding-bottom: 1.5rem; margin-bottom: .5rem; }
+    }
+    .scripture-col { position: sticky; top: calc(68px + 300px + 1.8rem); max-height: calc(100vh - 68px - 1.8rem); overflow-y: auto; padding-right: 1.2rem; border-right: 1px solid var(--color-border); scrollbar-width: thin; scrollbar-color: var(--color-border) transparent; }
+    .scripture-col h2 { font-family:var(--font-serif);font-size:.95rem;color:var(--color-text-muted);margin-bottom:.8rem;padding-bottom:.4rem;border-bottom:1px solid var(--color-border); }
+    .scripture-text { font-family: var(--font-serif); font-size: clamp(.88rem, 1.3vw, 1.05rem); line-height: 2.2; white-space: pre-wrap; color: var(--color-text); overflow-wrap: break-word; }
+    .content-col { min-width: 0; }
+    .video-section { background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;padding:1.2rem 1.3rem;margin-bottom:1.8rem; }
+    .video-section h2 { font-family:var(--font-serif);font-size:1rem;margin-bottom:.8rem;color:var(--color-accent-dark); }
+    .video-placeholder { background:var(--color-accent-light);border-radius:8px;padding:1.2rem;text-align:center;color:var(--color-text-muted);font-size:.9rem;line-height:2; }
+    video { width:100%;border-radius:8px;max-height:360px;background:#000; }
+    .content-block { margin-bottom:1.8rem; }
+    .content-block h2 { font-family:var(--font-serif);font-size:1rem;color:var(--color-text-muted);margin-bottom:.8rem;padding-bottom:.4rem;border-bottom:1px solid var(--color-border); }
+    .prose { font-size:clamp(.88rem,1.2vw,1rem);line-height:1.95;overflow-wrap:break-word; }
+    .questions-list { display:grid;gap:1.2rem; }
+    .question-card { background:var(--color-surface);border:1px solid var(--color-border);border-left:3px solid var(--color-accent);border-radius:0 8px 8px 0;padding:.9rem 1rem; }
+    .question-num { font-size:.75rem;color:var(--color-accent);font-weight:700;margin-bottom:.3rem; }
+    .question-text { font-family:var(--font-serif);font-size:clamp(.9rem,1.3vw,1.05rem);line-height:1.85;margin-bottom:.75rem;overflow-wrap:break-word; }
+    .answer-label { font-size:.78rem;color:var(--color-text-muted);margin-bottom:.3rem; }
+    .answer-box { width:100%;box-sizing:border-box;min-height:80px;padding:.6rem .75rem;font-family:var(--font-sans);font-size:clamp(.85rem,1.1vw,.95rem);line-height:1.7;color:var(--color-text);background:var(--color-bg);border:1px solid var(--color-border);border-radius:6px;resize:vertical;outline:none;transition:border-color .15s; }
+    .answer-box:focus { border-color:var(--color-accent); }
+    .save-hint { font-size:.75rem;color:var(--color-text-muted);margin-top:.3rem;min-height:1.2em; }
+    .save-hint.saved { color:#6a9e6a; }
+    .chapter-nav { display:flex;justify-content:space-between;margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid var(--color-border); }
+    .nav-btn { display:inline-flex;align-items:center;gap:.4rem;padding:.6rem 1.2rem;background:var(--color-accent-light);color:var(--color-accent-dark);border-radius:8px;text-decoration:none;font-size:.9rem;transition:background .15s; }
+    .nav-btn:hover { background:var(--color-accent);color:white; }
+  </style>
+
+  <div class="painting-hero">
+    <a href="/" class="painting-nav">← 返回章节目录</a>
+    <div class="painting-meta">
+      <div class="painting-chapter-label">路加福音 · 第 {chapter} 章</div>
+      <h1 class="painting-title">{title}</h1>
+    </div>
+    <div class="painting-credit">伊凡·克拉姆斯柯依《旷野中的基督》，1872年，莫斯科特列季亚科夫画廊藏</div>
+  </div>
+
+  <div class="page-body">
+  <div class="two-col">
+    <aside class="scripture-col">
+      <h2>📖 本章经文（和合本）</h2>
+      <p class="scripture-text">{scripture}</p>
+    </aside>
+
+    <div class="content-col">
+      <div class="video-section">
+        <h2>🎬 本章视频讲解（约10分钟）</h2>
+        {videoSrc ? (
+          <><video controls src={videoSrc} preload="metadata"></video><p style="font-size:.85rem;color:var(--color-text-muted);margin-top:.6rem">建议先看视频，再读经文和思考问题</p></>
+        ) : (
+          <div class="video-placeholder">视频整理中，即将上线……<br/><small>可先阅读左侧经文和背景资料</small></div>
+        )}
+      </div>
+
+      <div class="content-block">
+        <h2>🌍 背景资料</h2>
+        <p class="prose">{background}</p>
+      </div>
+
+      <div class="content-block">
+        <h2>📚 平行参考</h2>
+        <p class="prose">{parallel}</p>
+      </div>
+
+      <div class="content-block">
+        <h2>💭 思考与交流</h2>
+        <div class="questions-list">
+          {questions.map((item, i) => (
+            <div class="question-card">
+              <div class="question-num">问题 {i + 1}</div>
+              <div class="question-text">{item.q}</div>
+              <div class="answer-label">您的想法：</div>
+              <textarea
+                class="answer-box"
+                data-key={`luke-4-q-${i}`}
+                placeholder="在这里写下您的想法……"
+                oninput="saveAnswer(this)"
+              ></textarea>
+              <div class="save-hint" id={`hint-${i}`}></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="chapter-nav">
+    <a href="/luke/3" class="nav-btn">← 第 3 章</a>
+    <a href="/luke/5" class="nav-btn">第 5 章 →</a>
+  </div>
+  </div>
+
+  <script>
+    import { syncFromCloud, saveToCloud } from '../../lib/supabase.js';
+
+    const CHAPTER = 4;
+    const keys = [0, 1, 2].map(i => `luke-${CHAPTER}-q-${i}`);
+
+    function restoreFromLocal() {
+      document.querySelectorAll('.answer-box').forEach((el) => {
+        const key = el.dataset.key;
+        if (key) {
+          const saved = localStorage.getItem(key);
+          if (saved) { el.value = saved; el.style.height = el.scrollHeight + 'px'; }
+        }
+      });
+    }
+    restoreFromLocal();
+
+    syncFromCloud(CHAPTER, keys).then(() => {
+      document.querySelectorAll('.answer-box').forEach((el) => {
+        if (el.value) return;
+        const saved = localStorage.getItem(el.dataset.key);
+        if (saved) { el.value = saved; el.style.height = el.scrollHeight + 'px'; }
+      });
+    });
+
+    let saveTimers = {};
+    function saveAnswer(el) {
+      el.style.height = 'auto';
+      el.style.height = el.scrollHeight + 'px';
+      const key = el.dataset.key;
+      if (!key) return;
+      clearTimeout(saveTimers[key]);
+      saveTimers[key] = setTimeout(() => {
+        localStorage.setItem(key, el.value);
+        const idx = Number(key.split('-').pop());
+        const hint = document.getElementById('hint-' + idx);
+        if (hint) {
+          hint.textContent = '✓ 已保存';
+          hint.classList.add('saved');
+          setTimeout(() => { hint.textContent = ''; hint.classList.remove('saved'); }, 2000);
+        }
+        saveToCloud(CHAPTER, idx, el.value);
+      }, 600);
+    }
+    window.saveAnswer = saveAnswer;
+  </script>
+</BaseLayout>

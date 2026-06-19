@@ -1,0 +1,241 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const chapter = 3;
+const title = "施洗约翰与耶稣受洗";
+const videoSrc = "";
+
+const scripture = `[3:1] 恺撒提庇留在位第十五年，本丢·彼拉多做犹太巡抚，希律做加利利分封的王，他的兄弟腓力做以土利亚和特拉可尼地方分封的王，吕撒聂做亚比利尼分封的王，
+[3:2] 亚那和该亚法做大祭司。那时，撒迦利亚的儿子约翰在旷野里，神的话临到他。
+[3:3] 他就来到约旦河一带地方，宣讲悔改的洗礼，使罪得赦。
+[3:4] 正如先知以赛亚书上所记的话说：“在旷野有人声喊着说：‘预备主的道，修直他的路！
+[3:5] 一切山洼都要填满，大小山冈都要削平，弯弯曲曲的地方要改为正直，高高低低的道路要改为平坦。
+[3:6] 凡有血气的，都要见神的救恩。’”
+[3:7] 约翰对那出来要受他洗的众人说：“毒蛇的种类！谁指示你们逃避将来的愤怒呢？
+[3:8] 你们要结出果子来，与悔改的心相称！不要自己心里说：‘有亚伯拉罕为我们的祖宗。’我告诉你们，神能从这些石头中给亚伯拉罕兴起子孙来。
+[3:9] 现在斧子已经放在树根上，凡不结好果子的树就砍下来，丢在火里。”
+[3:10] 众人问他说：“这样，我们当做什么呢？”
+[3:11] 约翰回答说：“有两件衣裳的，就分给那没有的，有食物的也当这样行。”
+[3:12] 又有税吏来要受洗，问他说：“夫子，我们当做什么呢？”
+[3:13] 约翰说：“除了例定的数目，不要多取。”
+[3:14] 又有兵丁问他说：“我们当做什么呢？”约翰说：“不要以强暴待人，也不要讹诈人，自己有钱粮就当知足。”
+[3:15] 百姓指望基督来的时候，人都心里猜疑或者约翰是基督。
+[3:16] 约翰说：“我是用水给你们施洗。但有一位能力比我更大的要来，我就是给他解鞋带也不配，他要用圣灵与火给你们施洗。
+[3:17] 他手里拿着簸箕，要扬净他的场，把麦子收在仓里，把糠用不灭的火烧尽了。”
+[3:18] 约翰又用许多别的话劝百姓，向他们传福音。
+[3:19] 只是分封的王希律因他兄弟之妻希罗底的缘故，并因他所行的一切恶事，受了约翰的责备，
+[3:20] 又另外添了一件，就是把约翰收在监里。
+[3:21] 众百姓都受了洗，耶稣也受了洗，正祷告的时候天就开了，
+[3:22] 圣灵降临在他身上，形状仿佛鸽子；又有声音从天上来说：“你是我的爱子，我喜悦你。”
+[3:23] 耶稣开头传道，年纪约有三十岁。依人看来，他是约瑟的儿子，约瑟是希里的儿子，
+[3:24] 希里是玛塔的儿子，玛塔是利未的儿子，利未是麦基的儿子，麦基是雅拿的儿子，雅拿是约瑟的儿子，
+[3:25] 约瑟是玛他提亚的儿子，玛他提亚是亚摩斯的儿子，亚摩斯是拿鸿的儿子，拿鸿是以斯利的儿子，以斯利是拿该的儿子，
+[3:26] 拿该是玛押的儿子，玛押是玛他提亚的儿子，玛他提亚是西美的儿子，西美是约瑟的儿子，约瑟是犹大的儿子，犹大是约亚拿的儿子，
+[3:27] 约亚拿是利撒的儿子，利撒是所罗巴伯的儿子，所罗巴伯是撒拉铁的儿子，撒拉铁是尼利的儿子，尼利是麦基的儿子，
+[3:28] 麦基是亚底的儿子，亚底是哥桑的儿子，哥桑是以摩当的儿子，以摩当是珥的儿子，珥是约细的儿子，
+[3:29] 约细是以利以谢的儿子，以利以谢是约令的儿子，约令是玛塔的儿子，玛塔是利未的儿子，
+[3:30] 利未是西缅的儿子，西缅是犹大的儿子，犹大是约瑟的儿子，约瑟是约南的儿子，约南是以利亚敬的儿子，
+[3:31] 以利亚敬是米利亚的儿子，米利亚是买南的儿子，买南是玛达他的儿子，玛达他是拿单的儿子，拿单是大卫的儿子，
+[3:32] 大卫是耶西的儿子，耶西是俄备得的儿子，俄备得是波阿斯的儿子，波阿斯是撒门的儿子，撒门是拿顺的儿子，
+[3:33] 拿顺是亚米拿达的儿子，亚米拿达是亚兰的儿子，亚兰是希斯仑的儿子，希斯仑是法勒斯的儿子，法勒斯是犹大的儿子，
+[3:34] 犹大是雅各的儿子，雅各是以撒的儿子，以撒是亚伯拉罕的儿子，亚伯拉罕是他拉的儿子，他拉是拿鹤的儿子，
+[3:35] 拿鹤是西鹿的儿子，西鹿是拉吴的儿子，拉吴是法勒的儿子，法勒是希伯的儿子，希伯是沙拉的儿子，
+[3:36] 沙拉是该南的儿子，该南是亚法撒的儿子，亚法撒是闪的儿子，闪是挪亚的儿子，挪亚是拉麦的儿子，
+[3:37] 拉麦是玛土撒拉的儿子，玛土撒拉是以诺的儿子，以诺是雅列的儿子，雅列是玛勒列的儿子，玛勒列是该南的儿子，该南是以挪士的儿子，
+[3:38] 以挪士是塞特的儿子，塞特是亚当的儿子，亚当是神的儿子。`;
+const background = `在那个时代，整个犹太地都被远方的罗马帝国牢牢地掌控着。罗马皇帝提庇留高高在上，他的一道道命令，通过总督本丢·彼拉多、还有犹太地的几个分封王——比如管理加利利的希律王、以及他的兄弟腓力等等——层层传达到百姓的日常生活中。这些地方的统治者，大多只关心自己的权势和利益，百姓们生活在沉重的赋税和官员的压榨之下，心里头常常感到压抑和不公，日子过得并不容易。
+
+就在这样的世道里，一个名叫约翰的人，却出现在了人们意想不到的地方——约旦河边的旷野。旷野，那可不是个好去处，它荒凉、干燥，荆棘遍野，常有野兽出没。平日里，人们都躲着它。可偏偏就是在这个人迹罕至的地方，神的话语临到了约翰，他开始向那些疲惫、困惑的百姓们宣讲一个全新的信息。
+
+人们为什么会冒着旷野的险恶，长途跋涉地出城去听约翰讲道呢？因为心里的重担太沉，对世道的不公太失望，大家都在盼着一个改变，盼着一丝亮光。约翰的出现，就像在黑夜里燃起了一堆篝火，虽然身处荒野，却让人心头温暖，觉得有了方向。
+
+他传讲的，是“悔改的洗礼”。这可不是洗掉身上的泥土，而是洗掉心里的污垢，是让一个人真心地回头，不再做那些亏心事、伤人的事。这样的转变，不仅仅是个人的，更影响着家庭和社会。古老的预言曾说，他的到来，会使父亲的心转向儿女，儿女的心也转向父亲。这就像在家族里，那些因为误解、因为心结而生出的隔阂，也因为这悔改的洗礼，因为对真道的追求，而渐渐消融，让两代人的心重新靠近，和解。
+
+这洗礼，也是一个重新开始的仪式。在约旦河里，人们一个个走进水里，洗去过去的罪过，也表明自己要重新做人。对于那些被压迫、被忽视的普通百姓来说，这就像是重新找到了生命的意义和尊严。约翰还引述了古时先知以赛亚的话：“预备主的道，修直他的路！”这可不是指去修筑真的山路，而是说要修好我们自己内心的路。把心里的弯弯绕绕、那些不平整的、偏僻的小道都修直了、填平了。就好比一个人想要回家，结果发现家门口的土路坑坑洼洼，他会想着赶紧把路修平整了，方便家人回家。约翰就是在告诉大家，要清理我们心里的障碍，让神的话语能够顺畅地进入我们的心田。
+
+他呼唤人们，不要仅仅依靠祖宗的荣耀，而是要用实际的行动来证明自己悔改的心。他教导不同职业的人，要正直做人，公平待物。这不仅仅是个人品德的问题，更是在那个充满压迫和不公的社会里，给普通人指明一条清正、有尊严的生活道路。那个时代，人们对未来充满了迷茫，对改变充满了渴望。约翰的出现，像是一声洪亮的号角，在荒野中吹响，唤醒了无数沉睡的心灵，预备着一位更重要的到来。`;
+const parallel = `路加福音在记述施洗约翰的这段故事时，有着它自己独特的心思和侧重，这在其他福音书里是很少见的。
+
+您看，像马太福音和马可福音，它们在写到施洗约翰责备那些出来受洗的人时，着重描绘了约翰的严厉。他直接斥责那些人是“毒蛇的种类”，并强调了审判的紧迫，斧子已经放在树根上，不结果子的树就会被砍下来。语气非常严肃，带着一种警告和威慑的力量，主要侧重于约翰作为审判的宣告者，提醒人们上帝公义的审判即将到来。
+
+然而，路加福音却在这样的严厉之后，笔锋一转，独家、详细地记录了约翰对不同人群的具体教导。这一点，在其他福音书里是看不到的，这正是路加福音的珍贵之处，它特别体贴和关注普通百姓的日常生活。
+
+当百姓们诚恳地问“这样，我们当做什么呢？”时，约翰没有再讲大道理，而是给出了贴近生活的指引：有两件衣裳的，就分给那没有的；有食物的，也当这样行。这教导的是分享和怜悯，是让我们看到身边有需要的人，就伸出援手，互助友爱。
+
+当那些平时受人厌恶的税吏来问时，约翰没有指责他们职业的罪恶，而是告诉他们：“除了例定的数目，不要多取。”这是在教导人要守规矩，不能贪心，不能利用自己的职权欺压百姓。
+
+连那些持刀弄枪的兵丁来问，约翰也教导他们：“不要以强暴待人，也不要讹诈人，自己有钱粮就当知足。”这是教导人要有节制，不滥用权力，不欺负弱小，懂得满足。
+
+从这些细节里，您是不是能感受到路加福音对普通百姓日常生活的深切体贴？它没有停留在空泛的道德说教上，而是把悔改的心落实在一点一滴的公平、诚实和友善之中。它告诉我们，真正的悔改，就体现在我们对待他人、对待财富、对待权力的实际行动上。这正是路加福音，这位医生出身的作者，细腻而又充满人情味的记录方式，他总是把目光投向那些被社会边缘化、被忽略的普通人，关心他们的疾苦，也指引他们如何过一个清清白白、有尊严的生活。`;
+const questions = [
+  { q: `经文中施洗约翰教导百姓、税吏和兵丁要正直、分享。在您过去的岁月里，有没有遇到过这样一位长辈或朋友，他们用自己正直的言行或无私的帮助，让您感受到心里的温暖和力量，给您指引了生活的方向？` },
+  { q: `约翰呼吁人们“预备主的道，修直他的路”，这不单是修路，更是要整理我们的内心。在您的生活中，有没有哪些时刻，您也曾下定决心，要放下过去的一些执念、烦恼，或者改正一些小毛病，让自己的心境变得更加开阔、坦荡？当时是为什么会有这样的想法呢？` },
+  { q: `耶稣受洗时，天上有声音说：“你是我的爱子，我喜悦你。”这是一种多么大的肯定啊。在您的一生中，有没有某个瞬间，或者某个人，给过您这样一份深深的肯定和接纳，让您感到被爱、被理解，心里充满了力量和勇气？那是怎样的一种感受呢？` }
+];
+---
+<BaseLayout title={`第 ${chapter} 章：${title} · 路加福音陪读`} wide={true}>
+  <style>
+    .painting-hero {
+      position: sticky;
+      top: 68px;
+      z-index: 0;
+      height: 300px;
+      margin-left: -0.5rem;
+      margin-right: -0.5rem;
+      background-image:
+        linear-gradient(to bottom, rgba(30,15,5,.15) 0%, rgba(20,10,3,.65) 100%),
+        url('https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Piero_della_Francesca_-_The_Baptism_of_Christ_-_Google_Art_Project.jpg/1280px-Piero_della_Francesca_-_The_Baptism_of_Christ_-_Google_Art_Project.jpg');
+      background-size: cover;
+      background-position: center 40%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 1rem 1.5rem;
+    }
+    .painting-nav { display:inline-flex;align-items:center;gap:.4rem;color:rgba(255,255,255,.85);text-decoration:none;font-size:.85rem; }
+    .painting-nav:hover { color:#fff; }
+    .painting-chapter-label { font-size:.82rem;color:rgba(255,255,255,.7);margin-bottom:.25rem; }
+    .painting-title { font-family:var(--font-serif);font-size:clamp(1.2rem,3vw,1.8rem);color:#fff;line-height:1.35;text-shadow:0 1px 4px rgba(0,0,0,.5); }
+    .painting-credit { font-size:.72rem;color:rgba(255,255,255,.5);text-align:right; }
+    .page-body { position: relative; z-index: 2; background: var(--color-bg); padding-top: 1.8rem; }
+    .two-col { display: grid; grid-template-columns: 2fr 3fr; gap: 1.5rem; align-items: start; }
+    @media (max-width: 960px) {
+      .two-col { grid-template-columns: 1fr; }
+      .scripture-col { position: static !important; max-height: none !important; overflow-y: visible !important; border-right: none !important; border-bottom: 1px solid var(--color-border); padding-right: 0 !important; padding-bottom: 1.5rem; margin-bottom: .5rem; }
+    }
+    .scripture-col { position: sticky; top: calc(68px + 300px + 1.8rem); max-height: calc(100vh - 68px - 1.8rem); overflow-y: auto; padding-right: 1.2rem; border-right: 1px solid var(--color-border); scrollbar-width: thin; scrollbar-color: var(--color-border) transparent; }
+    .scripture-col h2 { font-family:var(--font-serif);font-size:.95rem;color:var(--color-text-muted);margin-bottom:.8rem;padding-bottom:.4rem;border-bottom:1px solid var(--color-border); }
+    .scripture-text { font-family: var(--font-serif); font-size: clamp(.88rem, 1.3vw, 1.05rem); line-height: 2.2; white-space: pre-wrap; color: var(--color-text); overflow-wrap: break-word; }
+    .content-col { min-width: 0; }
+    .video-section { background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;padding:1.2rem 1.3rem;margin-bottom:1.8rem; }
+    .video-section h2 { font-family:var(--font-serif);font-size:1rem;margin-bottom:.8rem;color:var(--color-accent-dark); }
+    .video-placeholder { background:var(--color-accent-light);border-radius:8px;padding:1.2rem;text-align:center;color:var(--color-text-muted);font-size:.9rem;line-height:2; }
+    video { width:100%;border-radius:8px;max-height:360px;background:#000; }
+    .content-block { margin-bottom:1.8rem; }
+    .content-block h2 { font-family:var(--font-serif);font-size:1rem;color:var(--color-text-muted);margin-bottom:.8rem;padding-bottom:.4rem;border-bottom:1px solid var(--color-border); }
+    .prose { font-size:clamp(.88rem,1.2vw,1rem);line-height:1.95;overflow-wrap:break-word; }
+    .questions-list { display:grid;gap:1.2rem; }
+    .question-card { background:var(--color-surface);border:1px solid var(--color-border);border-left:3px solid var(--color-accent);border-radius:0 8px 8px 0;padding:.9rem 1rem; }
+    .question-num { font-size:.75rem;color:var(--color-accent);font-weight:700;margin-bottom:.3rem; }
+    .question-text { font-family:var(--font-serif);font-size:clamp(.9rem,1.3vw,1.05rem);line-height:1.85;margin-bottom:.75rem;overflow-wrap:break-word; }
+    .answer-label { font-size:.78rem;color:var(--color-text-muted);margin-bottom:.3rem; }
+    .answer-box { width:100%;box-sizing:border-box;min-height:80px;padding:.6rem .75rem;font-family:var(--font-sans);font-size:clamp(.85rem,1.1vw,.95rem);line-height:1.7;color:var(--color-text);background:var(--color-bg);border:1px solid var(--color-border);border-radius:6px;resize:vertical;outline:none;transition:border-color .15s; }
+    .answer-box:focus { border-color:var(--color-accent); }
+    .save-hint { font-size:.75rem;color:var(--color-text-muted);margin-top:.3rem;min-height:1.2em; }
+    .save-hint.saved { color:#6a9e6a; }
+    .chapter-nav { display:flex;justify-content:space-between;margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid var(--color-border); }
+    .nav-btn { display:inline-flex;align-items:center;gap:.4rem;padding:.6rem 1.2rem;background:var(--color-accent-light);color:var(--color-accent-dark);border-radius:8px;text-decoration:none;font-size:.9rem;transition:background .15s; }
+    .nav-btn:hover { background:var(--color-accent);color:white; }
+  </style>
+
+  <div class="painting-hero">
+    <a href="/" class="painting-nav">← 返回章节目录</a>
+    <div class="painting-meta">
+      <div class="painting-chapter-label">路加福音 · 第 {chapter} 章</div>
+      <h1 class="painting-title">{title}</h1>
+    </div>
+    <div class="painting-credit">皮耶罗·德拉·弗朗切斯卡《基督受洗》，约1448-1450年，伦敦国家美术馆藏</div>
+  </div>
+
+  <div class="page-body">
+  <div class="two-col">
+    <aside class="scripture-col">
+      <h2>📖 本章经文（和合本）</h2>
+      <p class="scripture-text">{scripture}</p>
+    </aside>
+
+    <div class="content-col">
+      <div class="video-section">
+        <h2>🎬 本章视频讲解（约10分钟）</h2>
+        {videoSrc ? (
+          <><video controls src={videoSrc} preload="metadata"></video><p style="font-size:.85rem;color:var(--color-text-muted);margin-top:.6rem">建议先看视频，再读经文和思考问题</p></>
+        ) : (
+          <div class="video-placeholder">视频整理中，即将上线……<br/><small>可先阅读左侧经文和背景资料</small></div>
+        )}
+      </div>
+
+      <div class="content-block">
+        <h2>🌍 背景资料</h2>
+        <p class="prose">{background}</p>
+      </div>
+
+      <div class="content-block">
+        <h2>📚 平行参考</h2>
+        <p class="prose">{parallel}</p>
+      </div>
+
+      <div class="content-block">
+        <h2>💭 思考与交流</h2>
+        <div class="questions-list">
+          {questions.map((item, i) => (
+            <div class="question-card">
+              <div class="question-num">问题 {i + 1}</div>
+              <div class="question-text">{item.q}</div>
+              <div class="answer-label">您的想法：</div>
+              <textarea
+                class="answer-box"
+                data-key={`luke-3-q-${i}`}
+                placeholder="在这里写下您的想法……"
+                oninput="saveAnswer(this)"
+              ></textarea>
+              <div class="save-hint" id={`hint-${i}`}></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="chapter-nav">
+    <a href="/luke/2" class="nav-btn">← 第 2 章</a>
+    <a href="/luke/4" class="nav-btn">第 4 章 →</a>
+  </div>
+  </div>
+
+  <script>
+    import { syncFromCloud, saveToCloud } from '../../lib/supabase.js';
+
+    const CHAPTER = 3;
+    const keys = [0, 1, 2].map(i => `luke-${CHAPTER}-q-${i}`);
+
+    function restoreFromLocal() {
+      document.querySelectorAll('.answer-box').forEach((el) => {
+        const key = el.dataset.key;
+        if (key) {
+          const saved = localStorage.getItem(key);
+          if (saved) { el.value = saved; el.style.height = el.scrollHeight + 'px'; }
+        }
+      });
+    }
+    restoreFromLocal();
+
+    syncFromCloud(CHAPTER, keys).then(() => {
+      document.querySelectorAll('.answer-box').forEach((el) => {
+        if (el.value) return;
+        const saved = localStorage.getItem(el.dataset.key);
+        if (saved) { el.value = saved; el.style.height = el.scrollHeight + 'px'; }
+      });
+    });
+
+    let saveTimers = {};
+    function saveAnswer(el) {
+      el.style.height = 'auto';
+      el.style.height = el.scrollHeight + 'px';
+      const key = el.dataset.key;
+      if (!key) return;
+      clearTimeout(saveTimers[key]);
+      saveTimers[key] = setTimeout(() => {
+        localStorage.setItem(key, el.value);
+        const idx = Number(key.split('-').pop());
+        const hint = document.getElementById('hint-' + idx);
+        if (hint) {
+          hint.textContent = '✓ 已保存';
+          hint.classList.add('saved');
+          setTimeout(() => { hint.textContent = ''; hint.classList.remove('saved'); }, 2000);
+        }
+        saveToCloud(CHAPTER, idx, el.value);
+      }, 600);
+    }
+    window.saveAnswer = saveAnswer;
+  </script>
+</BaseLayout>
